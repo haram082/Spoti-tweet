@@ -16,11 +16,9 @@ const MyApp: AppType<{ session: Session | null }> = ({
         <title>Spoti-Tweet</title>
         <meta name="SpotiTweet" content="Integration between Twitter and Spotify" />
         <link rel="icon" href="/icon.png" />
-        <script src="https://kit.fontawesome.com/ed688a6948.js" crossOrigin="anonymous" async></script>
       </Head>
       <Toaster />
       <Component {...pageProps} />
-      
     </SessionProvider>
   );
 };

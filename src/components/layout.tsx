@@ -1,12 +1,15 @@
 import { PropsWithChildren } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import Stats from "./Stats";
+import {FaHouseChimney} from "react-icons/fa6"
+
 
 export const Sidebar = () => {
     const { data: session } = useSession();
     return (
-        <ul className="text-center flex flex-col gap-3 ml-5">
-            <Link href="/">Home</Link>
+        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5">
+            <Link href="/" className="flex gap-3">Home</Link>
             <li>Music</li>
             {session && <><Link href="/library">Library</Link>
             <Link href={`/@${session.user?.name}`}>Profile</Link></>}
@@ -24,13 +27,15 @@ export const Sidebar = () => {
 export const PageLayout = (props: PropsWithChildren)=>{
     return(
     <main className="flex h-screen bg-dark">
-        <div className="sidebar-container h-full w-[200px] border-r border-slate-400">
+        <div className="sidebar-container h-full w-1/5 border-r border-slate-400">
             <Sidebar/>
         </div>
-        <div className="feed-container h-full w-full md:max-w-2xl border-x border-slate-400 overflow-y-scroll  overflow-hidden">
+        <div className="feed-container h-full w-full  border-x border-slate-400 overflow-y-scroll  overflow-hidden">
             {props.children}
       </div>
-     
+      <div className="flex flex-col items-center text-center w-1/4"> 
+            <Stats/>
+        </div>
     </main>
     ) 
 }

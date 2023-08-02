@@ -7,6 +7,7 @@ await import("./src/env.mjs");
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
+  
 
   /**
    * If you have `experimental: { appDir: true }` set, then you must comment the below `i18n` config
@@ -18,6 +19,7 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
+
 };
 
 export default config;

@@ -24,7 +24,6 @@ const scopes = [
     "user-read-currently-playing",
     "user-read-playback-state",
     "user-follow-read",
-    "user-follow-modify",
     "streaming",
     "user-read-private",
     "user-modify-playback-state",
@@ -57,10 +56,7 @@ async function refreshAccessToken(token: any) {
 
     } catch (error) {
         console.log(error)
-        return {
-            ...token,
-            error: 'RefreshAccessTokenError',
-        }
+
     }
     // const params = new URLSearchParams()
     // params.append("grant_type", "refresh_token")
