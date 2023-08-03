@@ -41,7 +41,7 @@ const Player = () => {
     }, [spotify, session, currentTrackIdState])
 
     useEffect(() => {
-      if(volume >= 0 && volume < 100){
+      if(volume >=0 && volume < 100){
         debouncedAdjustVolume(volume)
       }
     }, [volume])

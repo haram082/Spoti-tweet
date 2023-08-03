@@ -10,7 +10,7 @@ import{BsPlayFill} from 'react-icons/bs';
 
 
 
-const library = () => {
+const Playlists = () => {
     const spotify = useSpodify()
     const { data: session } = useSession();
     const [playlists, setPlaylists] = useState<any[]>([])
@@ -60,4 +60,4 @@ const library = () => {
   )
 }
 
-export default library
+export default Playlists
