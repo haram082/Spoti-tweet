@@ -1,6 +1,5 @@
-import React from 'react'
 import { useRecoilState } from 'recoil'
-import { currentTrackIdState, isPlayingState } from '../atom/songAtom'
+import { currentTrackIdState } from '../atom/songAtom'
 import useSpodify from './useSpodify'
 import { useEffect, useState } from 'react'
 
