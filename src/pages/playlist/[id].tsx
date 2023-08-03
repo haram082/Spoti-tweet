@@ -7,6 +7,7 @@ import useSpodify from '~/hooks/useSpodify';
 import type {NextPage} from 'next';
 import { useRouter } from 'next/router';
 import { PageLayout } from '~/components/layout';
+import Songs from '~/components/Songs';
 
 
 const colors: string[] = [
@@ -56,7 +57,7 @@ const AlbumView: NextPage = () => {
     <PageLayout>
       <div className="flex items-center space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full m-3 px-3 py-1  bg-slate-100 text-gray-900 absolute right-56">
             <Image src={icon.src} alt="pfp" width={40} height={40}></Image>
-            <h2>{session?.user?.name}</h2>
+            <h2>Welcome, {session?.user?.name}</h2>
             </div>
 
             <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80`}>
@@ -64,9 +65,11 @@ const AlbumView: NextPage = () => {
             className='h-44 w-44 shadow-2xl'/>
             <div>
                 <p>PLAYLIST</p>
-                <h2 className='text-2xl md:text-3xl xl:text-5xl'>{playlist?.name}</h2>
+                <h2 className='text-2xl md:text-3xl xl:text-5xl font-semibold'>{playlist?.name}</h2>
             </div>
             </section>
+
+            <Songs playlist ={playlist}/>
     </PageLayout>
   )
 }

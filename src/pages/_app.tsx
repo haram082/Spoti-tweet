@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
 import { Toaster } from "react-hot-toast";
+import {RecoilRoot}  from "recoil";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
@@ -12,6 +13,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 }) => {
   return (
     <SessionProvider session={session}>
+      <RecoilRoot>
       <Head>
         <title>Spoti-Tweet</title>
         <meta name="SpotiTweet" content="Integration between Twitter and Spotify" />
@@ -19,6 +21,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </Head>
       <Toaster />
       <Component {...pageProps} />
+      </RecoilRoot>
     </SessionProvider>
   );
 };

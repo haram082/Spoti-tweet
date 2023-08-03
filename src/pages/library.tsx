@@ -4,6 +4,7 @@ import { PageLayout } from '~/components/layout';
 import useSpodify from '~/hooks/useSpodify';
 import { useRecoilState } from 'recoil';
 import Link from 'next/link';
+import icon from "../../public/icon.png";
 
 
 
@@ -23,9 +24,13 @@ const library = () => {
   }, [session,spotify])
 
   if (!session || !session.user) return(
+    <PageLayout>
     <div className='flex justify-center items-center text-3xl'> 
-       <button onClick={() =>  signIn("spotify")}>Sign In to See Data</button>
-     </div>)
+       <button onClick={() =>  signIn("spotify")}
+       className=' rounded-lg px-6 pb-2 pt-2.5 mt-16 font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:bg-neutral-100 hover:text-black focus:text-primary-600 focus:outline-none focus:ring-0 flex flex-row">'>Sign In to See Data 
+      <img src={icon.src} alt="" className='w-12 h-12 ml-3'/></button>
+     </div>
+     </PageLayout>)
   return (
     <PageLayout>
     <div className=''>

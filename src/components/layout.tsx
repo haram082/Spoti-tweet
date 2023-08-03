@@ -2,7 +2,6 @@ import { PropsWithChildren } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Stats from "./Stats";
-import {FaHouseChimney} from "react-icons/fa6"
 
 
 export const Sidebar = () => {
@@ -12,14 +11,14 @@ export const Sidebar = () => {
             <Link href="/" className="flex gap-3">Home</Link>
             <li>Music</li>
             {session && <><Link href="/library">Library</Link>
-            <Link href={`/@${session.user?.name}`}>Profile</Link></>}
+            <Link href={`/`}>Profile</Link></>}
             <li>
             <button
                 className="rounded-full bg-white/10 px-10 font-semibold no-underline transition hover:bg-white/20"
                 onClick={session ? () => void signOut() : () =>  signIn("spotify")}>
                 {session ? "Sign out" : "Sign in"}
             </button>
-      </li>
+            </li>
         </ul>
     )
 }
