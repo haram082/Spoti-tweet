@@ -36,7 +36,7 @@ const Song = (props: {order: number, track: any}) => {
 
 function time(m: number) {
     const minutes: number = Math.floor(m / 60000);
-    const seconds: number = Number(((m % 60000)/1000).toFixed(0));
+    const seconds = Number(((m % 60000)/1000).toFixed(0));
     return seconds === 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 
 }

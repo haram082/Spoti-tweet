@@ -1,5 +1,6 @@
 import { GetServerSidePropsContext } from "next";
-import { DefaultSession, getServerSession } from "next-auth"
+import { getServerSession } from "next-auth"
+import type {DefaultSession} from "next-auth"
 import { env } from "~/env.mjs";
 import SpotifyProvider from "next-auth/providers/spotify"
 import { spotifyapi } from "./spotifyApi";

@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { currentTrackIdState } from '~/atom/songAtom'
@@ -21,7 +21,7 @@ export const Sidebar = () => {
             <li>
             <button
                 className="rounded-full bg-white/10 px-10 font-semibold no-underline transition hover:bg-white/20"
-                onClick={session ? () => void signOut() : () =>  signIn("spotify")}>
+                onClick={session ? () => void signOut() : () => void signIn("spotify")}>
                 {session ? "Sign out" : "Sign in"}
             </button>
             </li>
