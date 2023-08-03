@@ -1,6 +1,4 @@
-import React, { use, useEffect, useState } from 'react'
-import icon from "../../../public/icon.png";
-import Image from "next/image";
+import React, { useEffect, useState } from 'react'
 import { useSession } from "next-auth/react";
 import { shuffle } from 'lodash';
 import useSpodify from '~/hooks/useSpodify';
@@ -8,10 +6,12 @@ import type {NextPage} from 'next';
 import { useRouter } from 'next/router';
 import { PageLayout } from '~/components/layout';
 import Songs from '~/components/Songs';
+import TopRightIcon from '~/components/TopRightIcon';
+import {MdArrowBackIosNew} from 'react-icons/md';
+import Link from 'next/link';
 
 
 const colors: string[] = [
-    "from-indigo-500",
     "from-blue-500",
     "from-lightBlue-500",
     "from-cyan-500",
@@ -30,39 +30,41 @@ const colors: string[] = [
 const AlbumView: NextPage = () => {
     const { data: session } = useSession()
     const router = useRouter()
-    const {id} = router.query
     
     const [color, setColor] = useState("from-green-100");
     
     useEffect(() => {
         // @ts-ignore
         setColor(shuffle(colors).pop())
-    }, [])
+          }, []);
 
     
     const spotify = useSpodify()
     const [playlist, setPlaylist] = useState<any>(null)
     
     useEffect(() => {
+        const {id} = router.query
         if(session && typeof id === 'string'){
         spotify.getPlaylist(id).then((data) => {
             setPlaylist(data.body)
         }).catch((err) => {
             console.log(err)
         })}
-    }, [spotify, id])
+    }, [spotify, session, router])
 
      
   return (
     <PageLayout>
-      <div className="flex items-center space-x-3 opacity-90 hover:opacity-80 cursor-pointer rounded-full m-3 px-3 py-1  bg-slate-100 text-gray-900 absolute right-56">
-            <Image src={icon.src} alt="pfp" width={40} height={40}></Image>
-            <h2>Welcome, {session?.user?.name}</h2>
-            </div>
-
+      <TopRightIcon />
             <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80`}>
+
+            <div className='mt-5 ml-5 space-y-24'>  
+        <Link href="/playlists"><MdArrowBackIosNew className='inline-block text-3xl text-slate-200 hover:text-slate-400 cursor-pointer'/> Back</Link>
+      
             <img src={playlist?.images[0].url} alt="album_cover" 
             className='h-44 w-44 shadow-2xl'/>
+            </div>
+
             <div>
                 <p>PLAYLIST</p>
                 <h2 className='text-2xl md:text-3xl xl:text-5xl font-semibold'>{playlist?.name}</h2>

@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import { PageLayout } from "~/components/layout";
 import { api } from "~/utils/api";
-import AlbumView from "~/pages/playlist/[id]";
 
 
 export default function Home() {

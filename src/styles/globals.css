@@ -10,3 +10,7 @@ body{
 .feed-container::-webkit-scrollbar {
     display: none;
   }
+
+button{
+    @apply cursor-pointer hover:scale-125 transition transform duration-100 ease-out text-slate-500;
+}

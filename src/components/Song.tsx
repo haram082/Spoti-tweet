@@ -1,10 +1,22 @@
 import React from 'react'
+import { useRecoilState } from 'recoil'
 import useSpodify from '~/hooks/useSpodify'
+import { currentTrackIdState, isPlayingState } from '~/atom/songAtom'
 
 const Song = (props: {order: number, track: any}) => {
-    
+  const spotify = useSpodify()
+  const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
+  const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
+
+  const playSong = () => {
+    setCurrentTrack(props.track.track.id)
+    setIsPlaying(true)
+    spotify.play({
+      uris: [props.track.track.uri]
+    })
+  }
   return (
-    <div className='grid grid-cols-2 text-gray-400 py-4  hover:bg-slate-800 rounded-lg cursor-pointer'>
+    <div className='grid grid-cols-2 text-gray-400 py-4 px-4  hover:bg-slate-800 rounded-lg cursor-pointer' onClick={playSong}>
       <div className='flex items-center space-x-4 '>
         <p>{props.order +1}</p>
         <img src={props.track.track.album.images[0].url} alt="" className='h-10 w-10'/>

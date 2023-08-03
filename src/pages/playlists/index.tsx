@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { signIn, useSession } from "next-auth/react";
 import { PageLayout } from '~/components/layout';
 import useSpodify from '~/hooks/useSpodify';
-import { useRecoilState } from 'recoil';
 import Link from 'next/link';
-import icon from "../../public/icon.png";
-
+import icon from "../../../public/icon.png";
+import TopRightIcon from '~/components/TopRightIcon';
+import {MdArrowBackIosNew} from 'react-icons/md';
 
 
 
@@ -33,13 +33,17 @@ const library = () => {
      </PageLayout>)
   return (
     <PageLayout>
-    <div className=''>
-        <h1>{session.user.name}'s Library</h1> 
-        <ul className='flex justify-evenly flex-wrap space-y-5 space-x-5'>
+    <div className='pb-24'>
+      <TopRightIcon/>
+      <div className='mt-5 ml-5'>  
+        <Link href="../"><MdArrowBackIosNew className='inline-block text-3xl text-slate-200 hover:text-slate-400 cursor-pointer'/> Back</Link></div>
+
+        <div className='text-center text-2xl font-bold mb-2'>{session.user.name}'s Library</div> 
+        <ul className='flex flex-wrap justify-evenly'>
         {playlists.map((playlist) =>(
-          <Link href={`/playlist/${playlist.id}`} key={playlist.id}
-          className='flex flex-col text-center items-center border cursor-pointer'>
-          <img src={playlist.images[0].url} alt="song" width={150} height={150} className=' object-contain'></img>
+          <Link href={`/playlists/${playlist.id}`} key={playlist.id}
+          className='flex flex-col text-center items-center justify-center cursor-pointer h-[200px] w-[200px] hover:bg-slate-800 rounded-lg'>
+          <img src={playlist.images[0].url} alt="song" width={150} height={150} className=' object-cover p-2'></img>
           <p key={playlist.id}>{playlist.name}</p>
           </Link>
         )          
