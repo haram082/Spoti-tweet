@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import useSpodify from '~/hooks/useSpodify'
 import { useRecoilState } from 'recoil'
 import { currentTrackIdState } from '~/atom/songAtom'
@@ -12,6 +12,9 @@ import {FaCirclePause} from 'react-icons/fa6'
 import {FaShuffle} from 'react-icons/fa6'
 import {FiRepeat} from 'react-icons/fi'
 import {ImVolumeMedium} from 'react-icons/im'
+import {ImVolumeMute2} from 'react-icons/im'
+import { debounce } from 'lodash'
+
 
 
 const Player = () => {
@@ -37,6 +40,18 @@ const Player = () => {
         }
     }, [spotify, session, currentTrackIdState])
 
+    useEffect(() => {
+      if(volume >= 0 && volume < 100){
+        debouncedAdjustVolume(volume)
+      }
+    }, [volume])
+
+    const debouncedAdjustVolume = useCallback(
+      debounce((volume: number) => {
+        spotify.setVolume(volume)
+      }, 500)
+      , [])
+
     const handlePlayPause = () => {
         spotify.getMyCurrentPlaybackState().then((data) => {
             if(data.body?.is_playing){
@@ -52,7 +67,7 @@ const Player = () => {
 
   
   return (
-    <div className='absolute w-screen bottom-0 bg-gradient-to-b from-slate-950 to-slate-800 h-20 text-slate-200 grid grid-cols-3 items-center text-xs md:text-base px-2 md:px-6'>
+    <div className='absolute w-screen bottom-0 bg-gradient-to-b from-slate-950 to-slate-800 h-20 text-slate-200 grid grid-cols-3 items-center text-xs md:text-base px-2 md:px-6 z-20'>
       <div className='flex items-center space-x-4'>
         <img src={songInfo?.album.images?.[0]?.url} alt="" className='inline h-16 w-16 p-2' />
         <div >
@@ -62,7 +77,7 @@ const Player = () => {
       </div>
 
 
-      <div className='space-x-4 md:space-x-6'>
+      <div className='space-x-4 md:space-x-6 flex justify-center'>
 
         <button>
             <FaShuffle className={`inline h-4 w-4 md:h-6 md:w-6 ${shuffle && 'text-green-500'}` } onClick={()=>{spotify.setShuffle(!shuffle); setShuffle(!shuffle)}}/>
@@ -106,8 +121,19 @@ const Player = () => {
         </div>
 
       <div className='flex items-center space-x-3 md:space-x-4 justify-end pr-5'>
-            <ImVolumeMedium className='inline h-5 w-5 md:h-6 md:w-6' />
-            <input type="range" value="" min={0} max={100}  className='w-14 md:w-28'/>
+        <button>
+        {/* volume control only works with laptop active device for some reason */}
+        {volume > 0 ?
+            <ImVolumeMedium className='inline h-5 w-5 md:h-6 md:w-6' 
+            onClick={()=>{ setVolume(0)}}/>
+            :
+            <ImVolumeMute2 className='inline h-5 w-5 md:h-6 md:w-6'
+            onClick={()=>{setVolume(50)}}/>}
+            </button>
+            <input type="range" value={volume} min={0} max={100}
+            onChange={(e)=>setVolume(Number(e.target.value))}
+              className='w-14 md:w-28'
+            />
       </div>
     </div>
   )

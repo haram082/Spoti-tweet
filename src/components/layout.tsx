@@ -13,7 +13,7 @@ import Player from "./Player";
 export const Sidebar = () => {
     const { data: session } = useSession();
     return (
-        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5">
+        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 hover:text-slate-100">
             <Link href="/" className="flex gap-3">Home</Link>
             <li>Music</li>
             {session && <><Link href="/playlists">Library</Link>

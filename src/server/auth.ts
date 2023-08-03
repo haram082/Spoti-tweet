@@ -20,6 +20,7 @@ declare module "next-auth" {
 const scopes = [
     "user-read-email",
     "playlist-read-private",
+   " user-modify-playback-state",
     "playlist-read-collaborative",
     "user-read-currently-playing",
     "user-read-playback-state",

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import icon from "../../../public/icon.png";
 import TopRightIcon from '~/components/TopRightIcon';
 import {MdArrowBackIosNew} from 'react-icons/md';
+import{BsPlayFill} from 'react-icons/bs';
 
 
 
@@ -42,7 +43,11 @@ const library = () => {
         <ul className='flex flex-wrap justify-evenly'>
         {playlists.map((playlist) =>(
           <Link href={`/playlists/${playlist.id}`} key={playlist.id}
-          className='flex flex-col text-center items-center justify-center cursor-pointer h-[200px] w-[200px] hover:bg-slate-800 rounded-lg'>
+          className='flex flex-col text-center items-center justify-center cursor-pointer h-[250px] w-[200px] hover:bg-slate-800 rounded-lg relative group'>
+
+              <div className='absolute opacity-0 group-hover:opacity-100 transition-all ease-in-out duration-200 shadow-2xl shadow-neutral-900 z-10 h-12 w-12 flex items-center justify-center rounded-full bg-green-500 top-[156px] group-hover:top-[125apx] right-6'>
+              <BsPlayFill className='h-6 w-6 ' />
+                </div>
           <img src={playlist.images[0].url} alt="song" width={150} height={150} className=' object-cover p-2'></img>
           <p key={playlist.id}>{playlist.name}</p>
           </Link>
