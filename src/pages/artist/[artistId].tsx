@@ -112,7 +112,6 @@ const Artist: NextPage = () => {
             </section>
 
             <section className='mt-16 '>
-                <h2 className='text-2xl md:text-3xl  font-semibold ml-8'>Albums</h2>
                 <div className='flex flex-wrap justify-evenly gap-1 mx-8 mt-4'>
             {
                 albums?.map((album:any) => (
@@ -127,7 +126,7 @@ const Artist: NextPage = () => {
                 <div className='flex flex-wrap justify-evenly gap-1 mx-8 mt-4'>
             {
                 relatedArtists?.map((artist:any) => (
-                    <Link href={`/artist/${artist.id}`} className='flex flex-col p-5 shadow border rounded-lg gap-3 hover:bg-gray-900'>
+                    <Link href={`/artist/${artist.id}`} className='flex flex-col p-5 shadow border rounded-lg gap-3 hover:bg-gray-900' key={artist.id}>
                         <img src={artist?.images?.[0]?.url} alt={artist.name} className='h-40 w-40 rounded-full'/>
                         <p className='text-slate-50 text-center hover:underline font-bold'>{artist.name}</p>
                     </Link>

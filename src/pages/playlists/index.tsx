@@ -42,7 +42,7 @@ const Playlists: NextPage = () => {
         
         <ul className='flex flex-wrap justify-evenly'>
         {playlists.map((playlist) =>(
-          <AlbumView playlist={playlist}/>
+          <AlbumView playlist={playlist} key={playlist.id}/>
         )          
         )}
         </ul>

@@ -8,7 +8,6 @@ import { PageLayout } from '~/Components/layout';
 import Songs from '~/Components/Songs';
 import TopRightIcon from '~/Components/TopRightIcon';;
 import BackArrow from '~/Components/BackArrow';
-import { useRecoilState } from 'recoil'
 
 
 const colors: string[] = [
