@@ -4,10 +4,10 @@ import { shuffle } from 'lodash';
 import useSpodify from '~/hooks/useSpodify';
 import type {NextPage} from 'next';
 import { useRouter } from 'next/router';
-import { PageLayout } from '~/Components/layout';
-import Songs from '~/Components/Songs';
-import TopRightIcon from '~/Components/TopRightIcon';;
-import BackArrow from '~/Components/BackArrow';
+import { PageLayout } from '~/components/layout';
+import Songs from '~/components/Songs';
+import TopRightIcon from '~/components/TopRightIcon';;
+import BackArrow from '~/components/BackArrow';
 
 
 const colors: string[] = [

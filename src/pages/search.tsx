@@ -1,12 +1,12 @@
 import React from 'react'
-import { PageLayout } from '~/Components/layout'
+import { PageLayout } from '~/components/layout'
 import type {NextPage} from 'next'
 import { useSession } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import {HiOutlineMagnifyingGlass} from 'react-icons/hi2'
-import FeaturedPlaylists  from '~/Components/FeaturedPlaylists'
-import SearchResults  from '~/Components/SearchResults'
-import TopRightIcon from '~/Components/TopRightIcon'
+import FeaturedPlaylists  from '~/components/FeaturedPlaylists'
+import SearchResults  from '~/components/SearchResults'
+import TopRightIcon from '~/components/TopRightIcon'
 
 
 

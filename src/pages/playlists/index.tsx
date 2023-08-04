@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { signIn, useSession } from "next-auth/react";
-import { PageLayout } from '~/Components/layout';
+import { PageLayout } from '~/components/layout';
 import useSpodify from '~/hooks/useSpodify';
 import icon from "../../../public/icon.png";
-import TopRightIcon from '~/Components/TopRightIcon';
-import BackArrow from '~/Components/BackArrow';
+import TopRightIcon from '~/components/TopRightIcon';
+import BackArrow from '~/components/BackArrow';
 import type {NextPage} from 'next';
-import AlbumView from '~/Components/AlbumView';
+import AlbumView from '~/components/AlbumView';
 
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { PageLayout } from '~/Components/layout'
+import { PageLayout } from '~/components/layout'
 import type {NextPage} from 'next'
 
 const Profile: NextPage = () => {

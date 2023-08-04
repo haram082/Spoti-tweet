@@ -1,16 +1,16 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router';
-import { PageLayout } from '~/Components/layout';
+import { PageLayout } from '~/components/layout';
 import { useSession } from "next-auth/react";
 import useSpodify from '~/hooks/useSpodify';
 import { useEffect, useState } from 'react';
-import TopRightIcon from '~/Components/TopRightIcon';
-import BackArrow from '~/Components/BackArrow';
+import TopRightIcon from '~/components/TopRightIcon';
+import BackArrow from '~/components/BackArrow';
 import { shuffle } from 'lodash';
-import Song from '~/Components/Song';
+import Song from '~/components/Song';
 import Link from 'next/link'
-import AlbumView from '~/Components/AlbumView';
+import AlbumView from '~/components/AlbumView';
 
 
 const colors: string[] = [
