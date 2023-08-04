@@ -13,15 +13,17 @@ import Player from "./Player";
 export const Sidebar = () => {
     const { data: session } = useSession();
     return (
-        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 hover:text-slate-100">
-            <Link href="/" className="flex gap-3">Home</Link>
-            <li>Music</li>
-            {session && <><Link href="/playlists">Library</Link>
-            <Link href={`/`}>Profile</Link></>}
+        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 ">
+            <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline">Home</Link>
+            <Link href="/search" className="hover:text-slate-100 hover:underline">Music</Link>
+            {session && <><Link href="/playlists" className="hover:text-slate-100 hover:underline">Library</Link>
+            <Link href={`/profile/@${session.user?.name}`} className="hover:text-slate-100 hover:underline">Profile</Link></>}
             <li>
             <button
-                className="rounded-full bg-white/10 px-10 font-semibold no-underline transition hover:bg-white/20"
-                onClick={session ? () => void signOut() : () => void signIn("spotify")}>
+                className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white"
+                onClick={session ? () => void signOut().then(
+                    () => window.location.href = "/"
+                ) : () => void signIn("spotify")}>
                 {session ? "Sign out" : "Sign in"}
             </button>
             </li>
@@ -54,7 +56,7 @@ export const PageLayout = (props: PropsWithChildren)=>{
         <div className="feed-container h-full w-full  border-x border-slate-400 overflow-y-scroll  overflow-hidden">
             {props.children}
       </div>
-      <div className="flex flex-col items-center text-center w-1/4"> 
+      <div className="hidden md:block text-center w-1/4 "> 
             <Stats/>
         </div>
         

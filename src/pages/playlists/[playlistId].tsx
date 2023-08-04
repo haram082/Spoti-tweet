@@ -4,11 +4,10 @@ import { shuffle } from 'lodash';
 import useSpodify from '~/hooks/useSpodify';
 import type {NextPage} from 'next';
 import { useRouter } from 'next/router';
-import { PageLayout } from '~/components/layout';
-import Songs from '~/components/Songs';
-import TopRightIcon from '~/components/TopRightIcon';
-import {MdArrowBackIosNew} from 'react-icons/md';
-import Link from 'next/link';
+import { PageLayout } from '~/Components/layout';
+import Songs from '~/Components/Songs';
+import TopRightIcon from '~/Components/TopRightIcon';;
+import BackArrow from '~/Components/BackArrow';
 
 
 const colors: string[] = [
@@ -27,10 +26,9 @@ const colors: string[] = [
     "from-purple-500"
     ];
 
-const AlbumView: NextPage = () => {
+const Playlist: NextPage = () => {
     const { data: session } = useSession()
-    const router = useRouter()
-    
+    const router = useRouter()    
     const [color, setColor] = useState("from-green-100");
     
     useEffect(() => {
@@ -43,11 +41,11 @@ const AlbumView: NextPage = () => {
     const [playlist, setPlaylist] = useState<any>(null)
     
     useEffect(() => {
-        const {id} = router.query
-        if(session && typeof id === 'string'){
-        spotify.getPlaylist(id).then((data) => {
+        const {playlistId} = router.query
+        if(session && typeof playlistId === 'string'){
+        spotify.getPlaylist(playlistId).then((data) => {
             setPlaylist(data.body)
-        }).catch((err) => {
+        }).catch((err: Error) => {
             console.log(err)
         })}
     }, [spotify, session, router])
@@ -59,7 +57,7 @@ const AlbumView: NextPage = () => {
             <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80`}>
 
             <div className='mt-5 ml-5 space-y-24'>  
-        <Link href="/playlists"><MdArrowBackIosNew className='inline-block text-3xl text-slate-200 hover:text-slate-400 cursor-pointer'/> Back</Link>
+            <BackArrow />
       
             <img src={playlist?.images[0].url} alt="album_cover" 
             className='h-44 w-44 shadow-2xl'/>
@@ -67,13 +65,13 @@ const AlbumView: NextPage = () => {
 
             <div>
                 <p>PLAYLIST</p>
-                <h2 className='text-2xl md:text-3xl xl:text-5xl font-semibold'>{playlist?.name}</h2>
+                <h2 className='text-2xl md:text-3xl xl:text-5xl font-semibold max-w-lg'>{playlist?.name}</h2>
             </div>
             </section>
 
-            <Songs playlist ={playlist}/>
+            <Songs playlist ={playlist} album={false} albumImage={null} albumName={null}/>
     </PageLayout>
   )
 }
 
-export default AlbumView
+export default Playlist

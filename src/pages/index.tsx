@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { PageLayout } from "~/components/layout";
+import { PageLayout } from "~/Components/layout";
 import { api } from "~/utils/api";
 
 
