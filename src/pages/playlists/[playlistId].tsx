@@ -60,7 +60,7 @@ const Playlist: NextPage = () => {
             <BackArrow />
       
             <img src={playlist?.images[0].url} alt="album_cover" 
-            className='h-44 w-44 shadow-2xl'/>
+            className='h-44 w-44 object-contain shadow-2xl'/>
             </div>
 
             <div>

@@ -21,7 +21,7 @@ const Search: NextPage = () => {
     const response = await fetch("https://api.spotify.com/v1/search?" + new URLSearchParams({
         q: query,
         type: ["artist", "album", "track", "playlist"].join(","),
-        limit: "4",
+        limit: "3",
     }), {
         headers: {
             Authorization: `Bearer ${session.accessToken}`

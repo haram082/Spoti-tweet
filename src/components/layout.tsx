@@ -12,6 +12,9 @@ import Player from "./Player";
 
 export const Sidebar = () => {
     const { data: session } = useSession();
+    if(session && !session?.accessToken){
+        void signIn("spotify")
+    }
     return (
         <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 ">
             <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline">Home</Link>
@@ -56,7 +59,7 @@ export const PageLayout = (props: PropsWithChildren)=>{
         <div className="feed-container h-full w-full  border-x border-slate-400 overflow-y-scroll  overflow-hidden">
             {props.children}
       </div>
-      <div className="hidden md:block text-center w-1/4 "> 
+      <div className="hidden md:block w-1/3 "> 
             <Stats/>
         </div>
         

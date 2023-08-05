@@ -67,7 +67,7 @@ const Artist: NextPage = () => {
       })
       
       spotify.getArtistRelatedArtists(artistId).then((data) => {
-        setRelatedArtists(data.body.artists.slice(0,8))
+        setRelatedArtists(data.body.artists.slice(0,6))
       }).catch((err: Error) => {
           console.log(err)
       })

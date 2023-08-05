@@ -38,7 +38,7 @@ const SearchResults = (props:{playlists: any, songs: any, artists:any, albums:an
                                 { song.artists.map((artist: any, i: number) => {
                                             return (
                                                 <div key={artist.id}>
-                                                    <Link href={`/artist/${artist.name}`}><span className='hover:underline text-sm'>{artist.name}</span></Link>
+                                                    <Link href={`/artist/${artist.id}`}><span className='hover:underline text-sm'>{artist.name}</span></Link>
                                                     <span>{i !=  song.artists.length - 1 ? ", " : null}</span>
                                                 </div>
                                             )
