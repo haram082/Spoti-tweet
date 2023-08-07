@@ -1,8 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth"
 import type {DefaultSession} from "next-auth" 
-import type { Account } from "@prisma/client";
-import type { Session } from "next-auth";
+import type { Session, Account } from "next-auth";
 import type { User } from "next-auth/core/types";
 import type { JWT } from "next-auth/jwt";
 import { env } from "~/env.mjs";
@@ -104,7 +103,7 @@ export const authOptions = {
     ],
     secret: process.env.JWT_SECRET,
     callbacks: {
-        async jwt({ token, user,  account }: { token: JWT, user: User, account: Account}) {
+        async jwt({ token,  account }: { token: JWT, account: Account}) {
             // Persist the OAuth access_token to the token right after signin
             if (account){
             token.accessToken = account.access_token!

@@ -25,6 +25,7 @@ export const env = createEnv({
     SPOTIFY_CLIENT_SECRET: z.string(),
     SPOTIFY_REDIRECT_URI: z.string().url(),
     JWT_SECRET: z.string(),
+    
   },
 
   /**
