@@ -1,26 +1,38 @@
 import type { PropsWithChildren } from "react";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { currentTrackIdState } from '~/atom/songAtom'
+import { currentTrackIdState,isPlayingState } from '~/atom/songAtom'
 import { useRecoilState } from "recoil";
 import useSpodify from "~/hooks/useSpodify";
 import { useEffect } from "react";
 import useSongInfo from "~/hooks/useSongInfo";
 import Stats from "./Stats";
 import Player from "./Player";
+import { api } from "~/utils/api";
 
 
 export const Sidebar = () => {
     const { data: session } = useSession();
-    if(session && !session?.accessToken){
-        void signIn("spotify")
-    }
+    // const {data: getUser}= api.profile.getProfile.useQuery();
+  
+    
+    // if(!getUser) {
+    //     const {mutate} = api.profile.createProfile.useMutation({
+    //     onSuccess: (data)=> {
+    //         console.log(data)
+    //     }
+    // })
+    // const m = () => mutate({ name: session?.user?.name!, image: session?.user?.image!, email: session?.user?.email!, })
+    // m()
+    // }
+    
+  
     return (
         <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 ">
             <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline">Home</Link>
-            <Link href="/search" className="hover:text-slate-100 hover:underline">Music</Link>
-            {session && <><Link href="/playlists" className="hover:text-slate-100 hover:underline">Library</Link>
-            <Link href={`/profile/@${session.user?.name}`} className="hover:text-slate-100 hover:underline">Profile</Link></>}
+            {session && <> <Link href="/search" className="hover:text-slate-100 hover:underline">Music</Link>
+             <Link href="/playlists" className="hover:text-slate-100 hover:underline">Library</Link>
+            <Link href={`@${getEmailBody(session.user?.email!)}`} className="hover:text-slate-100 hover:underline">Profile</Link></>}
             <li>
             <button
                 className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white"
@@ -34,8 +46,11 @@ export const Sidebar = () => {
     )
 }
 
+
+
 export const PageLayout = (props: PropsWithChildren)=>{
-    const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
+    const [currentTrack, setCurrentTrack] = useRecoilState<string |null>(currentTrackIdState)
+    const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
     const { data: session } = useSession();
     const spotify = useSpodify()
     const songInfo = useSongInfo()
@@ -44,7 +59,8 @@ export const PageLayout = (props: PropsWithChildren)=>{
         if(spotify.getAccessToken() && !currentTrack){
             if(!songInfo){
                 spotify.getMyCurrentPlayingTrack().then((data) => {
-                    setCurrentTrack(data.body?.item?.id)  
+                    if(data.body?.item?.id) setCurrentTrack(data.body?.item?.id) 
+                    setIsPlaying(data.body?.is_playing); 
                 })
             }
         }
@@ -70,3 +86,8 @@ export const PageLayout = (props: PropsWithChildren)=>{
     ) 
 }
 
+function getEmailBody(email: string): string {
+    const [body]  = email.split('@')
+    if(body) return body
+    return email
+  }

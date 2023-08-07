@@ -1,9 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import useSpodify from '~/hooks/useSpodify'
 import { useRecoilState } from 'recoil'
-import { currentTrackIdState, currentVolumeState } from '~/atom/songAtom'
-import { isPlayingState } from '~/atom/songAtom'
-import { useSession } from 'next-auth/react'
+import { currentTrackIdState, currentVolumeState,isPlayingState } from '~/atom/songAtom'
 import useSongInfo from '~/hooks/useSongInfo'
 import {IoPlayCircleSharp} from 'react-icons/io5'
 import {IoPlaySkipForwardSharp} from 'react-icons/io5'
@@ -20,25 +18,13 @@ import Link from 'next/link'
 
 const Player = () => {
     const spotify = useSpodify()
-    const {data: session} = useSession()
-    const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
+    const [currentTrack, setCurrentTrack] = useRecoilState<string| null>(currentTrackIdState)
     const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
     const [volume, setVolume] = useRecoilState<number>(currentVolumeState)
     const [repeat, setRepeat] = useState<boolean>(false)
     const [shuffle, setShuffle] = useState<boolean>(false)
 
     const songInfo = useSongInfo()
-
-    useEffect(() => {
-        if(spotify.getAccessToken() && !currentTrack){
-            if(!songInfo){
-                spotify.getMyCurrentPlayingTrack().then((data) => {
-                    setCurrentTrack(data.body?.item?.id);  
-                    setIsPlaying(data.body?.is_playing);
-                })
-            }
-        }
-    }, [spotify, session, currentTrackIdState])
 
     useEffect(() => {
       if(volume >=0 && volume < 100){
@@ -92,7 +78,7 @@ const Player = () => {
                 spotify.skipToPrevious()
                 setTimeout(() => {
                     spotify.getMyCurrentPlayingTrack().then((data) => {
-                      setCurrentTrack(data.body?.item?.id)  
+                      if(data.body?.item?.id) setCurrentTrack(data.body?.item?.id)  
                     })
                   }, 2000)
                   }}/>
@@ -107,7 +93,7 @@ const Player = () => {
                 spotify.skipToNext()
                 setTimeout(() => {
                     spotify.getMyCurrentPlayingTrack().then((data) => {
-                      setCurrentTrack(data.body?.item?.id)  
+                      if(data.body?.item?.id) setCurrentTrack(data.body?.item?.id)  
                     })
                   }, 2000)
                   }}/>

@@ -1,6 +1,10 @@
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth"
-import type {DefaultSession} from "next-auth"
+import type {DefaultSession} from "next-auth" 
+import type { Account } from "@prisma/client";
+import type { Session } from "next-auth";
+import type { User } from "next-auth/core/types";
+import type { JWT } from "next-auth/jwt";
 import { env } from "~/env.mjs";
 import SpotifyProvider from "next-auth/providers/spotify"
 import { spotifyapi } from "./spotifyApi";
@@ -16,6 +20,15 @@ declare module "next-auth" {
       refreshToken?: string;
     } 
   }
+
+  declare module "next-auth/jwt" {
+    interface JWT {
+        accessToken?: string;
+        refreshToken?: string;
+        accessTokenExpires?: number;
+        id?: string;
+    }
+    }
 
   // make login authorization url
 const scopes = [
@@ -42,10 +55,10 @@ const params = {
 const LOGIN_URL = "https://accounts.spotify.com/authorize?" + new URLSearchParams(params).toString();
 
 // refresh access token
-async function refreshAccessToken(token: any) {
+async function refreshAccessToken(token: JWT) {
     try {
-        spotifyapi.setAccessToken(token.accessToken)
-        spotifyapi.setRefreshToken(token.refreshToken)
+        if(token.accessToken) spotifyapi.setAccessToken(token.accessToken)
+        if(token.refreshToken)  spotifyapi.setRefreshToken(token.refreshToken)
 
         const { body: refreshedToken} = await spotifyapi.refreshAccessToken()
         console.log('resfreshing')
@@ -66,7 +79,6 @@ async function refreshAccessToken(token: any) {
     // const response = await fetch("https://accounts.spotify.com/api/token", {
     //     method: "POST",
     //     headers: {
-    //         // @ts-ignore
     //         'Authorization': 'Basic ' + (new Buffer.from(process.env.SPOTIFY_CLIENT_ID + ':' + process.env.SPOTIFY_SECRET).toString('base64'))
     //     },
     //     body: params
@@ -91,35 +103,40 @@ export const authOptions = {
           }),
     ],
     secret: process.env.JWT_SECRET,
-    // pages: {
-    //     signIn: "/login",
-    // },  
     callbacks: {
-        async jwt({ token, account }: any) {
+        async jwt({ token, user,  account }: { token: JWT, user: User, account: Account}) {
             // Persist the OAuth access_token to the token right after signin
-            if (account) {
-                token.accessToken = account.access_token
-                token.refreshToken = account.refresh_token
-                token.accessTokenExpires = account.expires_at
-                return token
+            if (account){
+            token.accessToken = account.access_token!
+            token.refreshToken = account.refresh_token!
+            token.accessTokenExpires = account.expires_at!
+            token.id = account.providerAccountId
             }
+            
+
             // access token has not expired
-            if (token.accessTokenExpires && Date.now() < token.accessTokenExpires * 1000) {
+            if (token.accessTokenExpires && Date.now() < token.accessTokenExpires) {
                 return token
             }
 
             // access token has expired
             return await refreshAccessToken(token)
         },
-        async session({ session, token}: any) {
+        async session({ session, token}: { session: Session, token: JWT}) {
             // Send properties to the client, like an access_token from a provider.
-            session.accessToken = token.accessToken
-            session.refresh_token = token.refreshToken
-            return session
-        }
-    }
+            session.accessToken = token.accessToken!
+            session.refreshToken = token.refreshToken!
+            
+            return {...session,
+                user: {
+                    ...session.user,
+                    id: token.id
+                }
+                }
+        
+        },
 }
-
+}
 
 export const getServerAuthSession = (ctx: {
   req: GetServerSidePropsContext["req"];

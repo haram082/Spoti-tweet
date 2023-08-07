@@ -4,10 +4,12 @@ import { shuffle } from 'lodash';
 import useSpodify from '~/hooks/useSpodify';
 import type {NextPage} from 'next';
 import { useRouter } from 'next/router';
-import { PageLayout } from '~/components/layout';
-import Songs from '~/components/Songs';
-import TopRightIcon from '~/components/TopRightIcon';;
-import BackArrow from '~/components/BackArrow';
+import { PageLayout } from '~/components/layout/layout';
+import Songs from '~/components/music/Songs';
+import TopRightIcon from '~/components/layout/TopRightIcon';;
+import BackArrow from '~/components/layout/BackArrow';
+import Head from 'next/head';
+import SpotifyWebApi from 'spotify-web-api-node';
 
 
 const colors: string[] = [
@@ -39,7 +41,7 @@ const Album: NextPage = () => {
 
     
     const spotify = useSpodify()
-    const [playlist, setPlaylist] = useState<any>(null)
+    const [playlist, setPlaylist] = useState<SpotifyApi.SingleAlbumResponse | null>(null)
     
     useEffect(() => {
         const {albumId} = router.query
@@ -54,13 +56,16 @@ const Album: NextPage = () => {
 
     return (
       <PageLayout>
+        <Head>
+            <title>{playlist?.name}</title>
+        </Head>
         <TopRightIcon />
               <section className={`flex items-end space-x-7 bg-gradient-to-b to-black ${color} h-80`}>
   
               <div className='mt-5 ml-5 space-y-24'>  
               <BackArrow />
         
-              <img src={playlist?.images[0].url} alt="album_cover" 
+              <img src={playlist?.images[0]?.url} alt="album_cover" 
               className='h-44 w-44 shadow-2xl object-contain'/>
               </div>
   
@@ -70,7 +75,7 @@ const Album: NextPage = () => {
               </div>
               </section>
   
-              <Songs playlist ={playlist} album={true} albumName={playlist?.name} albumImage={playlist?.images[0].url}/>
+              <Songs playlist ={playlist} album={true} albumName={playlist?.name!} albumImage={playlist?.images[0]?.url!}/>
       </PageLayout>
     )
 }

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import useSpodify from '~/hooks/useSpodify'
 import { useSession } from 'next-auth/react'
-import AlbumView from './AlbumView'
+import AlbumView from '../music/AlbumView'
 
 const FeaturedPlaylists = () => {
     const spotify = useSpodify()
-    const {data: session} = useSession()
-    const [featuredPlaylists, setFeaturedPlaylist] = useState<any[]>([])
+    const [featuredPlaylists, setFeaturedPlaylist] = useState<SpotifyApi.PlaylistObjectSimplified[]>([])
     useEffect(() => {
         spotify.getFeaturedPlaylists({ limit : 8, offset: 1, country: 'US' })
         .then((data) => {
@@ -19,7 +18,7 @@ const FeaturedPlaylists = () => {
     <div className='flex flex-wrap justify-evenly'>
       {
             featuredPlaylists.map((playlist) => (
-                <AlbumView playlist={playlist} key={playlist}/>
+                <AlbumView playlist={playlist} key={playlist.id}/>
             ))
       }
     </div>

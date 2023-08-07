@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { signIn, useSession } from "next-auth/react";
-import { PageLayout } from '~/components/layout';
+import { PageLayout } from '~/components/layout/layout';
 import useSpodify from '~/hooks/useSpodify';
 import icon from "../../../public/icon.png";
-import TopRightIcon from '~/components/TopRightIcon';
-import BackArrow from '~/components/BackArrow';
+import TopRightIcon from '~/components/layout/TopRightIcon';
+import BackArrow from '~/components/layout/BackArrow';
 import type {NextPage} from 'next';
-import AlbumView from '~/components/AlbumView';
-
+import AlbumView from '~/components/music/AlbumView';
+import Head from 'next/head';
 
 
 const Playlists: NextPage = () => {
     const spotify = useSpodify()
     const { data: session } = useSession();
-    const [playlists, setPlaylists] = useState<any[]>([])
+    const [playlists, setPlaylists] = useState<SpotifyApi.PlaylistObjectSimplified[]>([])
 
   useEffect(() => {
     if(spotify.getAccessToken()){
@@ -35,13 +35,16 @@ const Playlists: NextPage = () => {
 
   return (
     <PageLayout>
+       <Head>
+        <title>Library</title>
+        </Head>
       <TopRightIcon/>
     <div className='pb-24'>
       <div className='mt-5 ml-5'><BackArrow/></div>
         <div className='text-center text-2xl font-bold mb-2'>{session.user.name}&apos;s Library</div> 
         
         <ul className='flex flex-wrap justify-evenly'>
-        {playlists.map((playlist) =>(
+        {playlists.map((playlist: SpotifyApi.PlaylistObjectSimplified) =>(
           <AlbumView playlist={playlist} key={playlist.id}/>
         )          
         )}

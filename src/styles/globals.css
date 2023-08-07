@@ -12,5 +12,5 @@ body{
   }
 
 button{
-    @apply cursor-pointer hover:scale-125 transition transform duration-100 ease-out text-slate-500;
+    @apply cursor-pointer hover:scale-125 transition transform duration-100 ease-out text-slate-500 disabled:opacity-40;
 }

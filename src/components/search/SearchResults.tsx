@@ -1,5 +1,5 @@
 import React from 'react'
-import AlbumView from './AlbumView'
+import AlbumView from '../music/AlbumView'
 import useSpodify from '~/hooks/useSpodify'
 import { useRecoilState } from 'recoil'
 import { currentTrackIdState, isPlayingState } from '~/atom/songAtom'
@@ -9,7 +9,7 @@ import Link from 'next/link'
 const SearchResults = (props:{playlists: any, songs: any, artists:any, albums:any }) => {
     const {playlists, songs, artists, albums} = props
     const spotify = useSpodify()
-    const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
+    const [currentTrack, setCurrentTrack] = useRecoilState<string | null>(currentTrackIdState)
     const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
     
   return (

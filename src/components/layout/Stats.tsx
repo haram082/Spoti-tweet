@@ -3,14 +3,13 @@ import useSpodify from '~/hooks/useSpodify'
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import Link from 'next/link'
-import { set } from 'lodash'
 
 const Stats = () => {
   const { data: session } = useSession()
-  const [topArtistsShort, setTopArtistsShort] = useState<any[]>([]);
-  const [topArtistsLong, setTopArtistsLong] = useState<any[]>([]);
-  const [topTracks, setTopTracks] = useState<any[]>([]);
-  const [trendingTracks, setTrendingTracks] = useState<any[]>([]);
+  const [topArtistsShort, setTopArtistsShort] = useState<SpotifyApi.ArtistObjectFull[] | []>([]);
+  const [topArtistsLong, setTopArtistsLong] = useState<SpotifyApi.ArtistObjectFull[] | [] >([]);
+  const [topTracks, setTopTracks] = useState<SpotifyApi.TrackObjectFull[] | []>([]);
+  const [trendingTracks, setTrendingTracks] = useState<SpotifyApi.PlaylistTrackObject[]| []>([]);
   const spotify = useSpodify()
   useEffect(() => {
     if(session){
@@ -39,11 +38,11 @@ const Stats = () => {
         <div className='flex flex-col border-r pb-3'>
         <p className="text-base font-bold border-b text-center text-slate-400">Your Top Tracks</p>
         {
-          topTracks.map((track:any, i: number) => (
+          topTracks.map((track: SpotifyApi.TrackObjectFull, i: number) => (
             <div key={track.id} className='flex pl-3 pt-1'>
               <p className='text-slate-200 px-1'>{i+1}. </p>
               <div>
-              <Link href={`/album/${track?.album}`}><p className='text-slate-200 hover:underline text-sm truncate w-24'> {track?.name}</p></Link>
+              <Link href={`/albums/${track?.album.id}`}><p className='text-slate-200 hover:underline text-sm truncate w-24'> {track?.name}</p></Link>
 
               <Link href={`/artist/${track?.artists[0]?.id}`}><p className='text-xs text-slate-300 hover:underline cursor-pointer'>{track?.artists[0]?.name}</p></Link>
               </div>
@@ -54,11 +53,11 @@ const Stats = () => {
       <div className='flex flex-col border-l border-r'>
         <p className="text-base font-bold border-b text-center text-slate-400 ">Trending Tracks</p>
         {
-          trendingTracks.map((track:any, i: number) => (
-            <div key={track.track.id} className='flex'>
+          trendingTracks.map((track: SpotifyApi.PlaylistTrackObject, i: number) => (
+            <div key={i+1} className='flex'>
               <p className='text-slate-200 px-1'>{i+1}. </p>
               <div>
-              <Link href={`/album/${track?.track?.album?.id}`}><p className='text-slate-200 text-sm hover:underline truncate w-24'> {track?.track?.name}</p></Link>
+              <Link href={`/albums/${track?.track?.album?.id}`}><p className='text-slate-200 text-sm hover:underline truncate w-24'> {track?.track?.name}</p></Link>
 
               <Link href={`/artist/${track?.track?.artists[0]?.id}`}><p className='text-xs text-slate-300 hover:underline cursor-pointer'>{track?.track?.artists[0]?.name}</p></Link>
               </div>
@@ -79,7 +78,7 @@ const Stats = () => {
         <div className='flex'>
         <div className='w-1/2'>
         {
-          topArtistsShort.map((artist:any, i: number) => (
+          topArtistsShort.map((artist: SpotifyApi.ArtistObjectFull, i: number) => (
             <div key={artist.id} className='flex pl-3 '>
               <p className='text-slate-200 px-1'>{i+1}. </p>
               <div>
@@ -92,7 +91,7 @@ const Stats = () => {
       </div>
       <div className='w-1/2'>
         {
-          topArtistsLong.map((artist:any, i: number) => (
+          topArtistsLong.map((artist: SpotifyApi.ArtistObjectFull, i: number) => (
             <div key={artist.id} className='flex border-l pl-4'>
               <p className='text-slate-200 px-1'>{i+1}. </p>
               <div>

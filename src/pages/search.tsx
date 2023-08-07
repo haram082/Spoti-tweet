@@ -1,19 +1,34 @@
 import React from 'react'
-import { PageLayout } from '~/components/layout'
+import { PageLayout } from '~/components/layout/layout'
 import type {NextPage} from 'next'
 import { useSession } from 'next-auth/react'
 import { useState, useRef, useEffect } from 'react'
 import {HiOutlineMagnifyingGlass} from 'react-icons/hi2'
-import FeaturedPlaylists  from '~/components/FeaturedPlaylists'
-import SearchResults  from '~/components/SearchResults'
-import TopRightIcon from '~/components/TopRightIcon'
+import FeaturedPlaylists  from '~/components/search/FeaturedPlaylists'
+import SearchResults  from '~/components/search/SearchResults'
+import TopRightIcon from '~/components/layout/TopRightIcon'
+import Head from 'next/head'
 
+type SearchData = {
+    playlists: {
+        items: any[]
+    },
+    tracks: {
+        items: any[]
+    },
+    artists: {
+        items: any[]
+    },
+    albums: {
+        items: any[]
+    }
+}
 
 
 const Search: NextPage = () => {  
   const {data: session} = useSession()
   const [inputValue, setInputValue] = useState<string>('')
-  const [searchData, setSearchData] = useState<any>(null)
+  const [searchData, setSearchData] = useState<SearchData| null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function updateSearchResults(query: string) {
@@ -36,7 +51,11 @@ useEffect(() => {
 }, [inputRef])
 
   return (
+    
     <PageLayout>
+        <Head>
+        <title>Music Search</title>
+        </Head>
          <div className='flex-grow pb-24'>
             <TopRightIcon/>
             <header className='text-white sticky top-0 h-20 z-10 text-4xl flex items-center px-8'>
@@ -51,10 +70,10 @@ useEffect(() => {
             <div>
                 {searchData === null ? <FeaturedPlaylists
                 /> : <SearchResults
-                    playlists={searchData?.playlists.items}
-                    songs={searchData?.tracks.items}
-                    artists={searchData?.artists.items}
-                    albums={searchData?.albums.items}
+                    playlists={searchData.playlists.items}
+                    songs={searchData.tracks.items}
+                    artists={searchData.artists.items}
+                    albums={searchData.albums.items}
                 />}
             </div>
         </div>

@@ -12,17 +12,17 @@ const Song = (props: {order: number, track: any, album: boolean, albumName: stri
   const router = useRouter()
   const {id} = router.query
   const spotify = useSpodify()
-  const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
+  const [currentTrack, setCurrentTrack] = useRecoilState<string | null>(currentTrackIdState)
   const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
   const [isHovered, setIsHovered] = useState<boolean>(false)
-  const Trackid = props.album ? props.track.id : props.track.track.id
-  const trackName = props.album ? props.track.name : props.track.track.name
+  const Trackid: string = props.album ? props.track.id : props.track.track.id
+  const trackName: string = props.album ? props.track.name : props.track.track.name
   const trackArtists: any[] = props.album ? props.track.artists : props.track.track.artists
-  const trackDuration = props.album ? props.track.duration_ms : props.track.track.duration_ms
-  const uri = props.album ? props.track.uri : props.track.track.uri
-  const albumId = props.album ? id : props.track.track.album.id
-  const albumName = props.album ? props.albumName : props.track.track.album.name
-  const trackImage = props.album ? props.albumImage ? props.albumImage: props.track.album.images[0].url : props.track.track.album.images[0].url
+  const trackDuration: number = props.album ? props.track.duration_ms : props.track.track.duration_ms
+  const uri: string = props.album ? props.track.uri : props.track.track.uri
+  const albumId: string = props.album ? id : props.track.track.album.id
+  const albumName: string = props.album ? props.albumName : props.track.track.album.name
+  const trackImage: string = props.album ? props.albumImage ? props.albumImage: props.track.album.images[0].url : props.track.track.album.images[0].url
   
 
 

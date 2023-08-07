@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react'
 
 const useSongInfo = () => {
     const spotify = useSpodify()
-    const [currentTrack, setCurrentTrack] = useRecoilState<any>(currentTrackIdState)
-    const [trackInfo, setTrackInfo] = useState<any>(null)
+    const [currentTrack, setCurrentTrack] = useRecoilState<string |null>(currentTrackIdState)
+    const [trackInfo, setTrackInfo] = useState<SpotifyApi.SingleTrackResponse| null>(null)
 
     useEffect(() => {
         const fetchTrackInfo = async () => {
