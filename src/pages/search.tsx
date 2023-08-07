@@ -9,26 +9,12 @@ import SearchResults  from '~/components/search/SearchResults'
 import TopRightIcon from '~/components/layout/TopRightIcon'
 import Head from 'next/head'
 
-type SearchData = {
-    playlists: {
-        items: any[]
-    },
-    tracks: {
-        items: any[]
-    },
-    artists: {
-        items: any[]
-    },
-    albums: {
-        items: any[]
-    }
-}
 
 
 const Search: NextPage = () => {  
   const {data: session} = useSession()
   const [inputValue, setInputValue] = useState<string>('')
-  const [searchData, setSearchData] = useState<SearchData| null>(null)
+  const [searchData, setSearchData] = useState<any>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function updateSearchResults(query: string) {

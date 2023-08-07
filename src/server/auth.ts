@@ -1,9 +1,7 @@
 import { GetServerSidePropsContext } from "next";
 import { getServerSession } from "next-auth"
 import type {DefaultSession} from "next-auth" 
-import type { Session, Account } from "next-auth";
-import type { User } from "next-auth/core/types";
-import type { JWT } from "next-auth/jwt";
+import type { Session } from "next-auth";
 import { env } from "~/env.mjs";
 import SpotifyProvider from "next-auth/providers/spotify"
 import { spotifyapi } from "./spotifyApi";
@@ -25,7 +23,7 @@ declare module "next-auth" {
         accessToken?: string;
         refreshToken?: string;
         accessTokenExpires?: number;
-        id?: string;
+        id: string;
     }
     }
 
@@ -54,7 +52,7 @@ const params = {
 const LOGIN_URL = "https://accounts.spotify.com/authorize?" + new URLSearchParams(params).toString();
 
 // refresh access token
-async function refreshAccessToken(token: JWT) {
+async function refreshAccessToken(token: any) {
     try {
         if(token.accessToken) spotifyapi.setAccessToken(token.accessToken)
         if(token.refreshToken)  spotifyapi.setRefreshToken(token.refreshToken)
@@ -101,14 +99,14 @@ export const authOptions = {
             authorization: LOGIN_URL,
           }),
     ],
-    secret: process.env.JWT_SECRET,
+    secret: process.env.JWT_SECRET,  
     callbacks: {
-        async jwt({ token,  account }: { token: JWT, account: Account}) {
+        async jwt({ token,  account }: { token: any, account: any}) {
             // Persist the OAuth access_token to the token right after signin
             if (account){
-            token.accessToken = account.access_token!
-            token.refreshToken = account.refresh_token!
-            token.accessTokenExpires = account.expires_at!
+            token.accessToken = account.access_token
+            token.refreshToken = account.refresh_token
+            token.accessTokenExpires = account.expires_at
             token.id = account.providerAccountId
             }
             
@@ -121,12 +119,17 @@ export const authOptions = {
             // access token has expired
             return await refreshAccessToken(token)
         },
-        async session({ session, token}: { session: Session, token: JWT}) {
+        async session({ session, token}: { session: Session, token: any}) {
             // Send properties to the client, like an access_token from a provider.
-            session.accessToken = token.accessToken!
-            session.refreshToken = token.refreshToken!
+            session.accessToken = token.accessToken
+            session.refreshToken = token.refreshToken
             
-            return session
+            return {...session,
+                user: {
+                    ...session.user,
+                    id: token.id
+                }
+                }
         
         },
 }
