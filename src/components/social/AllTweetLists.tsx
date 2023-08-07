@@ -20,7 +20,7 @@ type TweetsProps = {
     isError: boolean;
     hasMore: boolean | undefined;
     fetchNewTweets: () => Promise<any>;
-    tweets?: Tweet[]
+    tweets?: any[]
 }
 
 type Tweet = {
