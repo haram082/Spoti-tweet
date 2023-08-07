@@ -126,12 +126,7 @@ export const authOptions = {
             session.accessToken = token.accessToken!
             session.refreshToken = token.refreshToken!
             
-            return {...session,
-                user: {
-                    ...session.user,
-                    id: token.id
-                }
-                }
+            return session
         
         },
 }

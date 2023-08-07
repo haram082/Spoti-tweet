@@ -13,7 +13,7 @@ export default function Home() {
         console.log(data)
     }
 })
-let num =1
+
   useEffect(() => {
   if(session && !getUser) {
    const m = () => mutate({ name: session?.user?.name!, image: session?.user?.image!, email: session?.user?.email!, })

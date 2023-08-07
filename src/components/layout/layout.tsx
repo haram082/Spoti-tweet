@@ -13,18 +13,6 @@ import { api } from "~/utils/api";
 
 export const Sidebar = () => {
     const { data: session } = useSession();
-    // const {data: getUser}= api.profile.getProfile.useQuery();
-  
-    
-    // if(!getUser) {
-    //     const {mutate} = api.profile.createProfile.useMutation({
-    //     onSuccess: (data)=> {
-    //         console.log(data)
-    //     }
-    // })
-    // const m = () => mutate({ name: session?.user?.name!, image: session?.user?.image!, email: session?.user?.email!, })
-    // m()
-    // }
     
   
     return (
