@@ -18,7 +18,7 @@ const FeaturedPlaylists = () => {
     <div className='flex flex-wrap justify-evenly'>
       {
             featuredPlaylists.map((playlist) => (
-                <AlbumView playlist={playlist} key={playlist.id}/>
+                <AlbumView playlist={playlist} key={playlist.id} album={false}/>
             ))
       }
     </div>
