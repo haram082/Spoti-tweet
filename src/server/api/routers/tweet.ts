@@ -5,30 +5,6 @@ import {
   protectedProcedure,
 } from "~/server/api/trpc";
 
-export const ProfileRouter = createTRPCRouter({
- // create a new user in prisma if it doesn't exist
-  createProfile: protectedProcedure
-  .input(z.object({
-    email: z.string().email(),
-    image: z.string().url(),
-    name: z.string().min(1),
-  }))
-  .mutation(async ({input: { email, image, name}, ctx}) => {
-    const user = await ctx.prisma.user.create({data: { email, image, name, id: ctx.session.user.id}})
-    return user
-  }
-  ),
-  // get user by id
-  getProfile: publicProcedure
-  .query(async ({ ctx}) => {
-    const user = await ctx.prisma.user.findUnique({where: {id: ctx.session?.user?.id}})
-    return user
-  }
-  ),
-  
-});
-
-
 
 export const TweetRouter = createTRPCRouter({
 
@@ -36,9 +12,10 @@ export const TweetRouter = createTRPCRouter({
   allPosts: publicProcedure.input(
     z.object({
     limit: z.number().optional(), 
+    onlyFollowing: z.boolean().optional(),
     cursor: z.object({id: z.string(), createdAt: z.date()}).optional()
   })).query(
-    async ({input: {limit = 10, cursor}, ctx}) => {
+    async ({input: {limit = 10, cursor, onlyFollowing= false}, ctx}) => {
       const currentUserId = ctx.session?.user?.id
 
       const tweets= await ctx.prisma.tweet.findMany({
@@ -96,5 +73,18 @@ export const TweetRouter = createTRPCRouter({
     const tweet = await ctx.prisma.tweet.create({data: { userId: ctx.session.user.id,content, trackId, trackName, trackArtist, trackImage, trackUri, albumId, artistId }
     })
     return tweet
+  }),
+
+  toggleLike: protectedProcedure.input(z.object({id: z.string()})).mutation(async ({input: {id}, ctx}) => {
+    const data = {userId: ctx.session.user.id, tweetId: id }
+    const existingTLike = await ctx.prisma.like.findUnique({where: {userId_tweetId: data}})
+    if(!existingTLike){
+      await ctx.prisma.like.create({data})
+      return {addedLike: true, tweetId: id}
+    }else{
+      await ctx.prisma.like.delete({where: {userId_tweetId: data}})
+      return {addedLike: false, tweetId: id}
+    }
+
   })
 });

@@ -34,13 +34,13 @@ model Tweet{
 }
 
 model Like{
-    userId String @id
+    userId String 
     tweetId String 
     createdAt DateTime @default(now())
     user User @relation(fields: [userId], references: [id], onDelete: Cascade)
     Tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
-
-    @@index([userId, tweetId])
+    
+    @@id([userId, tweetId])
     @@index([userId])
     @@index([tweetId])
 }

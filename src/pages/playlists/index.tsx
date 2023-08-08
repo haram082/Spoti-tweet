@@ -45,7 +45,7 @@ const Playlists: NextPage = () => {
         
         <ul className='flex flex-wrap justify-evenly'>
         {playlists.map((playlist: SpotifyApi.PlaylistObjectSimplified) =>(
-          <AlbumView playlist={playlist} key={playlist.id}/>
+          <AlbumView playlist={playlist} key={playlist.id} album={false}/>
         )          
         )}
         </ul>

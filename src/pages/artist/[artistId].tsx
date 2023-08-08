@@ -14,6 +14,7 @@ import AlbumView from '~/components/music/AlbumView';
 import Head from 'next/head';
 
 
+
 const colors: string[] = [
   "from-blue-500",
   "from-lightBlue-500",
@@ -40,6 +41,7 @@ const Artist: NextPage = () => {
     const [relatedArtists, setRelatedArtists] = useState<SpotifyApi.ArtistObjectFull[] | null>(null)
     const [albums, setAlbums] = useState<SpotifyApi.AlbumObjectSimplified[] | null>(null)
     const [color, setColor] = useState("from-green-100");
+
 
     useEffect(() => {
       // @ts-ignore
@@ -119,7 +121,7 @@ const Artist: NextPage = () => {
                 <div className='flex flex-wrap justify-evenly gap-1 mx-8 mt-4'>
             {
                 albums?.map((album:SpotifyApi.AlbumObjectSimplified) => (
-                    <AlbumView key={album.id} playlist={album} />
+                    <AlbumView key={album.id} playlist={album} album={true}/>
                 ))
             }
             </div>

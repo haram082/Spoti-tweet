@@ -1,4 +1,5 @@
-import { TweetRouter, ProfileRouter } from "~/server/api/routers/tweet";
+import { TweetRouter } from "~/server/api/routers/tweet";
+import { ProfileRouter } from "~/server/api/routers/profile";
 import { createTRPCRouter } from "~/server/api/trpc";
 
 /**

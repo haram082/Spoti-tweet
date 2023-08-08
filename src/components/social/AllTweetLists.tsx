@@ -11,7 +11,6 @@ import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
 import {FaRegCommentDots} from 'react-icons/fa'
 import { LoadingSpinner } from '../layout/Loading'
 
-
 dayjs.extend(relativeTime);
 
 
@@ -20,7 +19,7 @@ type TweetsProps = {
     isError: boolean;
     hasMore: boolean | undefined;
     fetchNewTweets: () => Promise<any>;
-    tweets?: any[]
+    tweets?: Tweet[]
 }
 
 type Tweet = {
@@ -45,10 +44,46 @@ type Tweet = {
     albumId: string | null;
 }
 
+import { api } from '~/utils/api'
+
 const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: TweetsProps) => {
   const [currentTrack, setCurrentTrack] = useRecoilState<string| null>(currentTrackIdState)
   const spotify = useSpodify()
   const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
+  const trpcUtils = api.useContext()
+  const {mutate} = api.tweet.toggleLike.useMutation({
+    onSuccess:  ({addedLike, tweetId}) => {
+      const updateData: Parameters<typeof trpcUtils.tweet.allPosts.setInfiniteData>[1] =(oldData) =>{
+        if(!oldData) return oldData
+        const countModifier = addedLike ? 1 : -1
+        return {
+          ...oldData,
+          pages: oldData.pages.map((page) => ({
+            ...page,
+            tweets: page.tweets.map(tweet=>{
+              if(tweet.id === tweetId){
+                return {
+                  ...tweet,
+                  likedByMe: addedLike,
+                  likesCount: tweet.likesCount + countModifier
+                }
+              }
+              return tweet
+            })
+
+          }))
+        }
+      }
+      trpcUtils.tweet.allPosts.setInfiniteData({}, updateData)
+    },
+    onError: (error) => {
+      console.log(error)
+    }
+  })
+  const handleLike = (id: string) =>{
+    mutate({id})
+  }
+  
   
 
     if(isLoading) return <LoadingSpinner/>
@@ -63,19 +98,19 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
                 <div className='flex flex-col gap-2'>
                 <div className='flex gap-3 items-center'>
                 {tweet.user.image && <Link href={`/@${tweet.user.email}`}><img src={tweet.user.image} alt="author_pfp" className="rounded-full hover:scale-[1.03] hover:opacity-50 h-12 w-12" /></Link>}
-              <div className="flex flex-col">
+              <div className="flex flex-col w-full">
                 <div className="flex gap-1">
                   <Link href={`/@${getEmailBody(tweet.user.email!)}`}><span className="font-bold text-slate-200 hover:border-b-2 ">{tweet.user.name}</span></Link>
                   <span className="text-slate-300">@{getEmailBody(tweet.user.email!)} ·</span>
                   <Link href={`/post/${tweet.id}`}> 
                   <span className="text-slate-300 hover:border-b text-xs md:text-base">{ dayjs(tweet.createdAt).fromNow()}</span></Link>
                 </div>
-                <Link href={`/post/${tweet.id}`}> <span className="text-xl w-full text-slate-500 lg:text-lg">{tweet.content}</span></Link>
+                <Link href={`/post/${tweet.id}`}> <span className="text-xl text-slate-500 lg:text-lg">{tweet.content}</span></Link>
                       </div>
                     </div>
 
                     <div className='flex justify-start  items-center pl-16 space-x-10  '>
-                    <span className='flex gap-3 items-center'>
+                    <span className='flex gap-3 items-center' onClick={()=>handleLike(tweet.id)}>
                       {tweet.likedByMe ? <AiFillHeart className='text-2xl text-red-500 hover:text-red-800 cursor-pointer'/>: <AiOutlineHeart className='text-2xl text-red-500 hover:text-red-800 cursor-pointer'/> }
                       {tweet.likesCount}
                       </span>

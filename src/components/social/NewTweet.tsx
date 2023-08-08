@@ -5,6 +5,7 @@ import {IoIosCloseCircle} from 'react-icons/io'
 import { motion } from 'framer-motion'
 import Modal from './Modal'
 import { api } from '~/utils/api'
+import { LoadingSpinner } from '../layout/Loading'
 
 
 type SongData = {
@@ -22,18 +23,22 @@ const {data: session}= useSession()
 const [input, setInput] = useState<string>('')
 const [modalOpen, setModalOpen] = useState<boolean>(false)
 const [songData, setSongData] = useState<SongData | null>(null)
-
-const createTweet = api.tweet.createTweet.useMutation({
+const trpcUtils = api.useContext()
+const {mutate, isLoading: isPosting} = api.tweet.createTweet.useMutation({
     onSuccess: (NewTweet)=> {
         console.log(NewTweet)
         setInput('')
         setSongData(null)
-    }
+        void trpcUtils.tweet.allPosts.invalidate()
+    },
+    onError: (error)=> alert(error.message)
 })
 function handleSubmit(e: React.FormEvent<HTMLFormElement>){
     e.preventDefault()
+    console.log(input)
     if (!input || !songData) return
-    createTweet.mutate({content: input, trackId: songData.trackId, trackName: songData.trackName, trackArtist: songData.trackArtist, trackImage: songData.trackImage, trackUri: songData.trackUri, artistId: songData.artistId, albumId: songData.albumId})
+    mutate({content: input, trackId: songData.trackId, trackName: songData.trackName, trackArtist: songData.trackArtist, trackImage: songData.trackImage, trackUri: songData.trackUri, artistId: songData.artistId, albumId: songData.albumId});
+    
 }
 
  
@@ -65,9 +70,9 @@ return (
             </div>
                   {modalOpen && <Modal handleClose={()=>setModalOpen(false)} setSongData={(res)=> setSongData(res)}/>}      
             </div>
-            <button type="submit" className={`text-lg font-semibold ${input && songData ? "": " cursor-not-allowed hover:scale-100"}`} disabled={!input || !songData}
-           >Post</button>
-            
+            {!isPosting && <button type="submit" className={`text-lg font-semibold ${input && songData ? "": " cursor-not-allowed hover:scale-100"}`} disabled={!input || !songData || isPosting}
+           >Post</button>}
+            {isPosting && <LoadingSpinner/>}
         </div>
 
 

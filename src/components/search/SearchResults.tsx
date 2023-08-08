@@ -33,13 +33,13 @@ const SearchResults = (props:{playlists: any, songs: any, artists:any, albums:an
                        <FaPlay  className="text-green-900 hover:text-green-600" /></button>    
                       <img src={song?.album.images?.[0]?.url} alt="" className='h-10 w-10'/>
                       <div>
-                        <p className='text-xs md:text-base w-36 lg:w-64 text-slate-50'>{song.name}</p>
-                        <p className='w-40 text-xs md:text-base '>
+                        <p className='text-xs md:text-base  text-slate-50 w-max'>{song.name}</p>
+                        <p className=' text-xs md:text-base flex space-x-1'>
                                 { song.artists.map((artist: any, i: number) => {
                                             return (
                                                 <div key={artist.id}>
                                                     <Link href={`/artist/${artist.id}`}><span className='hover:underline text-sm'>{artist.name}</span></Link>
-                                                    <span>{i !=  song.artists.length - 1 ? ", " : null}</span>
+                                                    <span>{i !=  song.artists.length - 1 ? ", " : null} </span>
                                                 </div>
                                             )
                                         })
@@ -58,7 +58,7 @@ const SearchResults = (props:{playlists: any, songs: any, artists:any, albums:an
         <div className='flex flex-wrap justify-evenly'>
             {
                 playlists.map((playlist:any) => (
-                    <AlbumView playlist={playlist} key={playlist.id}/>
+                    <AlbumView playlist={playlist} key={playlist.id} album={false}/>
                 ))
             }
             </div>
@@ -79,7 +79,7 @@ const SearchResults = (props:{playlists: any, songs: any, artists:any, albums:an
         <div className='flex flex-wrap justify-evenly'>
             {
                 albums.map((playlist:any) => (
-                    <AlbumView playlist={playlist} key={playlist.id}/>
+                    <AlbumView playlist={playlist} key={playlist.id} album={true}/>
                 ))
             }
             </div>

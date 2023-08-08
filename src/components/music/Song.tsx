@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 
 const Song = (props: {order: number, track: any, album: boolean, albumName: string | null, albumImage: string |null}) => {
   const router = useRouter()
-  const {id} = router.query
+  const {albumId: id} = router.query
   const spotify = useSpodify()
   const [currentTrack, setCurrentTrack] = useRecoilState<string | null>(currentTrackIdState)
   const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
