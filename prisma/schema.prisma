@@ -26,7 +26,7 @@ model Tweet{
     albumId String
     artistId String
     likes Like[]
-    // user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
     @@index([userId])
     @@unique([createdAt, id])
 
@@ -84,7 +84,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     //not next auth
-    // tweets       Tweet[]
+    tweets       Tweet[]
     likes        Like[]
     followers User[] @relation(name: "Followers")
     follows User[] @relation(name: "Followers")
