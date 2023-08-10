@@ -48,7 +48,7 @@ type ModalProps = {
     setSongData: (data: SongData) => void
 }
 
-const Modal  = ({handleClose, setSongData}: ModalProps) => {
+const SongModal  = ({handleClose, setSongData}: ModalProps) => {
     const spotify = useSpodify()
     const [searchData, setSearchData] = useState<SpotifyApi.TrackObjectFull[] | null>(null)
     const [inputValue, setInputValue] = useState<string>('')
@@ -120,4 +120,4 @@ const Modal  = ({handleClose, setSongData}: ModalProps) => {
     )
     }
 
-export default Modal
+export default SongModal

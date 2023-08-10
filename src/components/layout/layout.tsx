@@ -9,25 +9,46 @@ import useSongInfo from "~/hooks/useSongInfo";
 import Stats from "./Stats";
 import Player from "./Player";
 import { api } from "~/utils/api";
+import pfp from "../../../public/default_pfp.jpg"
+import {HiHome} from 'react-icons/hi'
+import {TbWorldSearch} from 'react-icons/tb'
+import {MdLibraryMusic} from 'react-icons/md'
+import {VscSignOut} from 'react-icons/vsc'
 
 
 export const Sidebar = () => {
     const { data: session } = useSession();
-    
+    const {data: getUser, isLoading}= api.profile.getById.useQuery();
+    const {mutate} = api.profile.createProfile.useMutation({
+        onSuccess: (data)=> {
+            console.log(data)
+                },
+        onError: (err)=> {
+            console.log(err)
+        }
+        })
+    useEffect(() =>   {
+        if(!isLoading){
+            if(session && !getUser ) {
+            mutate({ name: session?.user?.name!, image: session?.user?.image ?? pfp.src, email: session?.user?.email! })
+            }
+        }
+      }, [getUser, isLoading])
   
     return (
-        <ul className="text-center flex flex-col justify-center items-center gap-3 mt-5 text-slate-600 ">
-            <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline">Home</Link>
-            {session && <> <Link href="/search" className="hover:text-slate-100 hover:underline">Music</Link>
-             <Link href="/playlists" className="hover:text-slate-100 hover:underline">Library</Link>
-            <Link href={`@${getEmailBody(session.user?.email!)}`} className="hover:text-slate-100 hover:underline">Profile</Link></>}
+        <ul className="text-center flex flex-col justify-center items-center gap-5 mt-5 text-slate-600 ">
+            <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><HiHome className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Home</span></Link>
+            {session && <> <Link href="/search" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><TbWorldSearch className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Music</span></Link>
+             <Link href="/playlists" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><MdLibraryMusic className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Library</span></Link>
+            <Link href={`@${getUser?.username}`} className="flex gap-3 hover:text-slate-100 hover:underline text-xl"><img src={session.user?.image!} alt="pfp" className=" rounded-full h-7 w-7 shadow-md text-3xl lg:text-xl" /><span className="hidden lg:inline">Profile</span></Link></>}
             <li>
             <button
-                className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white"
+                className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white flex items-center gap-2 text-xl"
                 onClick={session ? () => void signOut().then(
                     () => window.location.href = "/"
                 ) : () => void signIn("spotify")}>
-                {session ? "Sign out" : "Sign in"}
+                <VscSignOut className="text-3xl lg:text-2xl"/>
+                <span className="hidden lg:inline">{session ? "Sign out" : "Sign in"}</span>
             </button>
             </li>
         </ul>

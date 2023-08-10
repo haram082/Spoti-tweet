@@ -7,19 +7,9 @@ import { useSession } from "next-auth/react";
 
 export default function Home() {
   const { data: session } = useSession();
-  const {data: getUser}= api.profile.getProfile.useQuery();
-  const {mutate} = api.profile.createProfile.useMutation({
-    onSuccess: (data)=> {
-        console.log(data)
-    }
-})
+  
 
-  useEffect(() => {
-  if(session && !getUser) {
-   const m = () => mutate({ name: session?.user?.name!, image: session?.user?.image!, email: session?.user?.email!, })
-   m()
-  }
-}, [getUser])
+  
 
 const tabs = ["Recent", "Following"] as const
 const [activeTab, setActiveTab] = useState<(typeof tabs[number])>('Recent')
@@ -51,10 +41,10 @@ const [activeTab, setActiveTab] = useState<(typeof tabs[number])>('Recent')
 }
 import { api } from "~/utils/api";
 import  AllTweetLists  from "~/components/social/AllTweetLists";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const RecentTweets = () => {
-  const tweets = api.tweet.allPosts.useInfiniteQuery({onlyFollowing: true}, {getNextPageParam: (lastPage) => lastPage.nextCursor});
+  const tweets = api.tweet.allPosts.useInfiniteQuery({onlyFollowing: false}, {getNextPageParam: (lastPage) => lastPage.nextCursor});
 
   return <AllTweetLists tweets={tweets.data?.pages.flatMap(page => page.tweets)} 
   isError={tweets.isError}
@@ -64,7 +54,7 @@ const RecentTweets = () => {
   }
 
 const FollowingTweets = () => {
-  const tweets = api.tweet.allPosts.useInfiniteQuery({}, {getNextPageParam: (lastPage) => lastPage.nextCursor});
+  const tweets = api.tweet.allPosts.useInfiniteQuery({onlyFollowing: true}, {getNextPageParam: (lastPage) => lastPage.nextCursor});
 
   return <AllTweetLists tweets={tweets.data?.pages.flatMap(page => page.tweets)} 
   isError={tweets.isError}

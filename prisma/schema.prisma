@@ -26,6 +26,7 @@ model Tweet{
     albumId String
     artistId String
     likes Like[]
+    comments Comment[]
     user   User  @relation(fields: [userId], references: [id], onDelete: Cascade)
     @@index([userId])
     @@unique([createdAt, id])
@@ -41,6 +42,18 @@ model Like{
     Tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
     
     @@id([userId, tweetId])
+    @@index([userId])
+    @@index([tweetId])
+}
+
+model Comment{
+    userId String
+    tweetId String
+    content String
+    createdAt DateTime @default(now())
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    tweet Tweet @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+    @@id([userId, tweetId, createdAt])
     @@index([userId])
     @@index([tweetId])
 }
@@ -81,11 +94,15 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    bio          String?
+    username      String?   @unique
+    createdAt     DateTime  @default(now())
     accounts      Account[]
     sessions      Session[]
     //not next auth
     tweets       Tweet[]
     likes        Like[]
+    comments     Comment[]
     followers User[] @relation(name: "Followers")
     follows User[] @relation(name: "Followers")
 }

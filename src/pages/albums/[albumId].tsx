@@ -9,7 +9,6 @@ import Songs from '~/components/music/Songs';
 import TopRightIcon from '~/components/layout/TopRightIcon';;
 import BackArrow from '~/components/layout/BackArrow';
 import Head from 'next/head';
-import SpotifyWebApi from 'spotify-web-api-node';
 
 
 const colors: string[] = [

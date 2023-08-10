@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import {LiaSpotify} from 'react-icons/lia'
 import {IoIosCloseCircle} from 'react-icons/io'
 import { motion } from 'framer-motion'
-import Modal from './Modal'
+import SongModal from './SongsModal'
 import { api } from '~/utils/api'
 import { LoadingSpinner } from '../layout/Loading'
 
@@ -68,7 +68,7 @@ return (
                           <button type="button" className='text-slate-500 hover:text-red-500 ' onClick={()=>setSongData(null)}><IoIosCloseCircle/></button>
                       </div>}
             </div>
-                  {modalOpen && <Modal handleClose={()=>setModalOpen(false)} setSongData={(res)=> setSongData(res)}/>}      
+                  {modalOpen && <SongModal handleClose={()=>setModalOpen(false)} setSongData={(res)=> setSongData(res)}/>}      
             </div>
             {!isPosting && <button type="submit" className={`text-lg font-semibold ${input && songData ? "": " cursor-not-allowed hover:scale-100"}`} disabled={!input || !songData || isPosting}
            >Post</button>}
