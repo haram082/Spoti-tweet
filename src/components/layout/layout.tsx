@@ -14,11 +14,15 @@ import {HiHome} from 'react-icons/hi'
 import {TbWorldSearch} from 'react-icons/tb'
 import {MdLibraryMusic} from 'react-icons/md'
 import {VscSignOut} from 'react-icons/vsc'
-
+import { useState } from "react";
+import { InitialModal } from "../InitialModal";
+import { open } from "~/atom/songAtom";
 
 export const Sidebar = () => {
     const { data: session } = useSession();
     const {data: getUser, isLoading}= api.profile.getById.useQuery();
+    const [modalOpen, setmodalOpen] = useRecoilState<boolean>(open)
+
     const {mutate} = api.profile.createProfile.useMutation({
         onSuccess: (data)=> {
             console.log(data)
@@ -46,12 +50,14 @@ export const Sidebar = () => {
                 className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white flex items-center gap-2 text-xl"
                 onClick={session ? () => void signOut().then(
                     () => window.location.href = "/"
-                ) : () => void signIn("spotify")}>
+                ) : () =>  void signIn("spotify").then()}>
                 <VscSignOut className="text-3xl lg:text-2xl"/>
                 <span className="hidden lg:inline">{session ? "Sign out" : "Sign in"}</span>
             </button>
             </li>
+            { modalOpen && !session && <InitialModal handleClose={()=>setmodalOpen(false)} />}
         </ul>
+        
     )
 }
 
@@ -94,9 +100,3 @@ export const PageLayout = (props: PropsWithChildren)=>{
     </>
     ) 
 }
-
-function getEmailBody(email: string): string {
-    const [body]  = email.split('@')
-    if(body) return body
-    return email
-  }

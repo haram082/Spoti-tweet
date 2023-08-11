@@ -14,3 +14,8 @@ export const currentVolumeState = atom({
     key: "currentVolumeState" as string,
     default: 50 as number,
 });
+
+export const open = atom({
+    key: "open" as string,
+    default: true as boolean,
+});
