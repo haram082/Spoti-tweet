@@ -56,7 +56,7 @@ export const InitialModal = ({ handleClose }: ModalProps) => {
 
                 <div className="">
                     <div className="text-sm lg:text-lg font-bold">How do I use the Spotify part?</div>
-                    <div className="text-xs lg:text-sm">First, you need to connect your Spotify account by pressing signIn. You will be able to look at your playlists and songs just like the Spotify app. You can even search up different songs, artist, and albums. There is also a player component that lets you play these songs. Howver, you need to have to have an external Spotify Web Player playing for it to work. To do this, go to Spotify with your account, and press play/pause once or twice. The volume functionality does not work on mobile versions. Additionally, when you play a song from an album or playlist, the rest of the playlist isn't added onto the queue as it hasn't been implimented yet.</div>
+                    <div className="text-xs lg:text-sm">First, you need to connect your Spotify account by pressing signIn. You will be able to look at your playlists and songs just like the Spotify app. You can even search up different songs, artist, and albums. There is also a player component that lets you play these songs. Howver, you need to have to have an external Spotify Web Player playing for it to work. To do this, go to Spotify with your account, and press play/pause once or twice. The volume functionality does not work on mobile versions. Additionally, when you play a song from an album or playlist, the rest of the playlist isn&quot;t added onto the queue as it hasn&quot;t been implimented yet.</div>
                 </div>
 
                 <div className="">
