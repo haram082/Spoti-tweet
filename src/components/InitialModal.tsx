@@ -19,7 +19,7 @@ export const InitialModal = ({ handleClose }: ModalProps) => {
         <Backdrop onClick={handleClose}>
 		<AnimatePresence>
             <motion.div onClick={handleClose}
-                className="margin-auto rounded-lg flex flex-col space-y-2 items-center w-80 md:w-3/4  h-screen lg:h-4/5 bg-blue-700 text-slate-200 px-8 py-2" 
+                className="margin-auto rounded-lg flex flex-col space-y-2 items-center w-3/4  h-screen lg:h-4/5 bg-blue-700 text-slate-200 px-8 py-2" 
                 initial={{
                     opacity: 0,
                     scale: 0.75,

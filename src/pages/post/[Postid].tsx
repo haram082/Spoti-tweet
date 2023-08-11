@@ -61,7 +61,7 @@ const Tweet: NextPage = () => {
             <img src={session.user?.image!} className='w-14 h-14 rounded-full'/>
              <textarea className='bg-transparent text-slate-200 flex-grow overflow-hidden p-4  outline-none mb-1 h-24 w-full ' placeholder='Tweet your reply...'
              value= {input} onChange={(e)=>setInput(e.target.value)} required/>
-          {isMutating ? <LoadingSpinner/> : <button className={`text-lg text-slate-600 pr-5 py-2 font-semibold ${!input && " cursor-not-allowed hover:scale-100"}`} disabled={!input ||  isMutating}
+          {isMutating ? <LoadingSpinner/> : <button className={`text-sm lg:text-lg text-slate-600  px-1 lg:pr-5 py-2 font-semibold ${!input && " cursor-not-allowed hover:scale-100"}`} disabled={!input ||  isMutating}
           onClick={()=> mutate({content: input, tweetId: tweet.id })}>Comment</button>}
             </div>}
 

@@ -90,13 +90,13 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
                 <div className='flex gap-3 items-center'>
                 {tweet.user.image && <Link href={`@${tweet.user.username}`}><img src={tweet.user.image} alt="author_pfp" className="rounded-full hover:scale-[1.03] hover:opacity-50 h-12 w-14" /></Link>}
               <div className="flex flex-col w-full">
-                <div className="flex gap-1">
-                  <Link href={`@${tweet.user.username}`}><span className="font-bold text-slate-200 hover:border-b-2 ">{tweet.user.name}</span></Link>
-                  <span className="text-slate-300">@{tweet.user.username } ·</span>
+                <div className="flex items-center gap-1">
+                  <Link href={`@${tweet.user.username}`}><span className="font-bold text-xs md:text-basetext-slate-200 hover:border-b-2 ">{tweet.user.name}</span></Link>
+                  <span className="text-slate-300 text-xs md:text-base">@{tweet.user.username } ·</span>
                   <Link href={`/post/${tweet.id}`}> 
                   <span className="text-slate-300 hover:border-b text-xs md:text-base">{ dayjs(tweet.createdAt).fromNow()}</span></Link>
                 </div>
-                <Link href={`/post/${tweet.id}`}> <span className="text-xl text-slate-500 lg:text-lg">{tweet.content}</span></Link>
+                <Link href={`/post/${tweet.id}`}> <span className="text-lg text-slate-500 lg:text-xl">{tweet.content}</span></Link>
                       </div>
                     </div>
 

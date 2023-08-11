@@ -77,7 +77,7 @@ const SongModal  = ({handleClose, setSongData}: ModalProps) => {
 
     return (
         <Backdrop onClick={handleClose}>
-        <motion.div  className='margin-auto py-8 rounded-md flex flex-col items-center w-1/2 md:w-[500px]  h-[400px] bg-slate-900 text-slate-100'
+        <motion.div  className='margin-auto py-8 rounded-md flex flex-col items-center w-[500px]  h-[400px] bg-slate-900 text-slate-100'
         onClick={(e)=> e.stopPropagation()}
         variants={dropIn}
         initial="hidden"

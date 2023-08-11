@@ -58,16 +58,16 @@ const Player = () => {
   
   return (
     <div className='absolute w-screen bottom-0 bg-gradient-to-b from-slate-950 to-slate-800 h-20 text-slate-200  flex justify-between md:grid md:grid-cols-3 items-center text-xs md:text-base px-2  md:px-5 z-20'>
-      <div className='flex items-center space-x-4 '>
-        <img src={songInfo?.album.images?.[0]?.url} alt="" className='inline h-16 w-16 p-2' />
+      <div className='flex items-center space-x-1 md:space-x-4 '>
+        <img src={songInfo?.album.images?.[0]?.url} alt="" className='inline h-12 w-12 md:h-16 md:w-16 p-2' />
         <div>
-            <Link href={`/albums/${songInfo?.album.id}`}><h3 className='font-semibold text-xs md:text-base text-slate-200 hover:underline truncate w-32 md:w-40 lg:w-80'>{songInfo?.name}</h3></Link>
+            <Link href={`/albums/${songInfo?.album.id}`}><h3 className='font-semibold text-xs md:text-base text-slate-200 hover:underline truncate w-20 md:w-40 lg:w-80'>{songInfo?.name}</h3></Link>
             <Link href={`/artist/${songInfo?.artists?.[0]?.id}`}><span className='text-slate-400 hover:underline hover:text-slate-200'>{songInfo?.artists?.[0]?.name}</span></Link>
         </div>
       </div>
 
 
-      <div className='space-x-4 md:space-x-6 flex justify-center'>
+      <div className='space-x-2 md:space-x-6 flex justify-center'>
 
         <button>
             <FaShuffle className={`inline h-4 w-4 md:h-6 md:w-6 ${shuffle && 'text-green-500'}` } onClick={()=>{spotify.setShuffle(!shuffle); setShuffle(!shuffle)}}/>

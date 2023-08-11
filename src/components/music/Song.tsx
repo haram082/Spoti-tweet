@@ -37,7 +37,7 @@ const Song = (props: {order: number, track: any, album: boolean, albumName: stri
 
 
   return (
-    <div className={`grid grid-cols-2 text-gray-400  px-2 py-4 md:px-4  hover:bg-slate-800 hover:text-blue-400 rounded-lg ${Trackid === currentTrack && 'bg-slate-800'}`}
+    <div className={`grid grid-cols-2 text-gray-400  px-2 py-4 md:px-4  hover:bg-slate-800 hover:text-blue-400 rounded-lg space-x-2 ${Trackid === currentTrack && 'bg-slate-800'}`}
     onMouseEnter={() => setIsHovered(true)} 
     onMouseLeave={() => setIsHovered(false)} >
       <div className='flex items-center space-x-4 '>
@@ -46,8 +46,8 @@ const Song = (props: {order: number, track: any, album: boolean, albumName: stri
           {isHovered ? <FaPlay  className="text-green-600" onClick={playSong} /> : props.order +1}</p>    
           <img src={trackImage} alt="" className='h-10 w-10'/>
           <div>
-            <p className='text-xs md:text-base w-36 lg:w-64 text-slate-50'>{trackName}</p>
-            <p className='w-40 text-xs md:text-base '>
+            <p className='text-xs md:text-base w-24 lg:w-64 text-slate-50'>{trackName}</p>
+            <p className='w-24 lg:w-40 text-xs md:text-base '>
                     { trackArtists.map((artist: any, i: number) => {
                                 return (
                                     <>

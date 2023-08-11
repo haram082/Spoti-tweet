@@ -41,7 +41,7 @@ export const ProfileModal = ({ setIsOpen,currentBio, currentName, currentUsernam
         <Backdrop>
 		<AnimatePresence>
             <motion.form
-                className="margin-auto py-8 rounded-md flex flex-col space-y-2 items-center w-1/2 md:w-[500px]  h-[450px] bg-slate-900 text-slate-700"
+                className="margin-auto py-8 rounded-md flex flex-col space-y-2 items-center w-[500px]  h-[450px] bg-slate-900 text-slate-700"
                 initial={{
                     opacity: 0,
                     scale: 0.75,

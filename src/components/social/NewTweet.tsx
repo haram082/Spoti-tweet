@@ -44,7 +44,7 @@ function handleSubmit(e: React.FormEvent<HTMLFormElement>){
  
 return (
     <form className='flex flex-col border-b px-4  h-36' onSubmit={handleSubmit}>
-        <div className='flex items-center gap-4'>
+        <div className='flex items-center lg:gap-4'>
         {session?.user?.image && <img src={session?.user?.image} alt="pfp"
         className="rounded-full object-contain h-14 w-14"></img>}
 
@@ -70,7 +70,7 @@ return (
             </div>
                   {modalOpen && <SongModal handleClose={()=>setModalOpen(false)} setSongData={(res)=> setSongData(res)}/>}      
             </div>
-            {!isPosting && <button type="submit" className={`text-lg font-semibold ${input && songData ? "": " cursor-not-allowed hover:scale-100"}`} disabled={!input || !songData || isPosting}
+            {!isPosting && <button type="submit" className={`text-base md:text-lg font-semibold ${input && songData ? "": " cursor-not-allowed hover:scale-100"}`} disabled={!input || !songData || isPosting}
            >Post</button>}
             {isPosting && <LoadingSpinner/>}
         </div>
