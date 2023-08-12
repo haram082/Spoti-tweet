@@ -99,7 +99,8 @@ export const TweetRouter = createTRPCRouter({
               user: {select: {name: true, image: true, email: true, id: true, username:true}}
             }
           }
-        }
+        },
+
       })
       if(!tweet){
         throw new Error("Tweet not found")

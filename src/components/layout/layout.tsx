@@ -34,10 +34,10 @@ export const Sidebar = () => {
     useEffect(() =>   {
         if(!isLoading){
             if(session && !getUser ) {
-            mutate({ name: session?.user?.name!, image: session?.user?.image ?? pfp.src, email: session?.user?.email! })
+            mutate({ name: session.user?.name!, image: session.user?.image! , email: session.user?.email! })
             }
         }
-      }, [getUser, isLoading])
+      }, [getUser, isLoading, session])
   
     return (
         <ul className="text-center flex flex-col justify-center items-center gap-5 mt-5 text-slate-600 ">

@@ -66,7 +66,6 @@ const Player = () => {
         </div>
       </div>
 
-
       <div className='space-x-2 md:space-x-6 flex justify-center'>
 
         <button>

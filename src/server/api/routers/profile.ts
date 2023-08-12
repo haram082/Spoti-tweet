@@ -6,6 +6,7 @@ import {
 } from "~/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 
+
 export const ProfileRouter = createTRPCRouter({
   //get user by id for intial creation if needed
   getById: protectedProcedure
