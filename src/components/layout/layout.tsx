@@ -9,7 +9,6 @@ import useSongInfo from "~/hooks/useSongInfo";
 import Stats from "./Stats";
 import Player from "./Player";
 import { api } from "~/utils/api";
-import pfp from "../../../public/default_pfp.jpg"
 import {HiHome} from 'react-icons/hi'
 import {TbWorldSearch} from 'react-icons/tb'
 import {MdLibraryMusic} from 'react-icons/md'
@@ -44,7 +43,7 @@ export const Sidebar = () => {
             <Link href="/" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><HiHome className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Home</span></Link>
             {session && <> <Link href="/search" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><TbWorldSearch className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Music</span></Link>
              <Link href="/playlists" className="flex gap-3 hover:text-slate-100 hover:underline items-center text-xl"><MdLibraryMusic className="text-3xl lg:text-2xl"/><span className="hidden lg:inline">Library</span></Link>
-            <Link href={`@${getUser?.username}`} className="flex gap-3 hover:text-slate-100 hover:underline text-xl"><img src={session.user?.image!} alt="pfp" className=" rounded-full h-7 w-7 shadow-md text-3xl lg:text-xl" /><span className="hidden lg:inline">Profile</span></Link></>}
+            <Link href={`/@${getUser?.username}`} className="flex gap-3 hover:text-slate-100 hover:underline text-xl"><img src={session.user?.image!} alt="pfp" className=" rounded-full h-7 w-7 shadow-md text-3xl lg:text-xl" /><span className="hidden lg:inline">Profile</span></Link></>}
             <li>
             <button
                 className="rounded-xl bg-white/10 py-1 px-3 font-semibold transition text-white flex items-center gap-2 text-xl"

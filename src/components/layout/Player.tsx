@@ -57,7 +57,7 @@ const Player = () => {
     } 
   
   return (
-    <div className='absolute w-screen bottom-0 bg-gradient-to-b from-slate-950 to-slate-800 h-20 text-slate-200  flex justify-between md:grid md:grid-cols-3 items-center text-xs md:text-base px-2  md:px-5 z-20'>
+    <div className='fixed w-screen bottom-0 bg-gradient-to-b from-slate-950 to-slate-800 h-20 text-slate-200  flex justify-between md:grid md:grid-cols-3 items-center text-xs md:text-base px-2  md:px-5 z-20'>
       <div className='flex items-center space-x-1 md:space-x-4 '>
         <img src={songInfo?.album.images?.[0]?.url} alt="" className='inline h-12 w-12 md:h-16 md:w-16 p-2' />
         <div>

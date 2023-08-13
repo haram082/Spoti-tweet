@@ -82,6 +82,9 @@ export const TweetRouter = createTRPCRouter({
       }
   }),
   
+
+
+        
   // get all comments on a tweet
   getComments: publicProcedure.input(z.object({id: z.string()})).query(
     async ({input: {id}, ctx}) => {
@@ -107,6 +110,7 @@ export const TweetRouter = createTRPCRouter({
       }
       return tweet.comments
   }),
+
 
   // create comment route
   createComment: protectedProcedure
@@ -138,6 +142,19 @@ export const TweetRouter = createTRPCRouter({
     })
     return tweet
   }),
+
+  //delete tweet route
+  deleteTweet: protectedProcedure.input(z.object({id: z.string()})).mutation(async ({input: {id}, ctx}) => {
+    const tweet = await ctx.prisma.tweet.findUnique({where: {id}})
+    if(!tweet){
+      throw new Error("Tweet not found")
+    }
+    if(tweet.userId !== ctx.session.user.id){
+      throw new Error("Not authorized")
+    }
+    await ctx.prisma.tweet.delete({where: {id}})
+  }),
+
 
   // handle likes on post
   toggleLike: protectedProcedure.input(z.object({id: z.string()})).mutation(async ({input: {id}, ctx}) => {

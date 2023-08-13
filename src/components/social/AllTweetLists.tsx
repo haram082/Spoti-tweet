@@ -5,9 +5,11 @@ import { useRecoilState } from 'recoil'
 import { currentTrackIdState } from '~/atom/songAtom'
 import useSpodify from '~/hooks/useSpodify'
 import { isPlayingState } from '~/atom/songAtom'
+import { useSession } from 'next-auth/react'
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import {AiOutlineHeart, AiFillHeart} from 'react-icons/ai'
+import {FaRegTrashAlt} from 'react-icons/fa'
 import {FaRegCommentDots} from 'react-icons/fa'
 import { LoadingSpinner } from '../layout/Loading'
 
@@ -53,6 +55,7 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
   const [currentTrack, setCurrentTrack] = useRecoilState<string| null>(currentTrackIdState)
   const spotify = useSpodify()
   const [isPlaying, setIsPlaying] = useRecoilState<boolean>(isPlayingState)
+  const {data: session}= useSession()
 
   const trpcUtils = api.useContext()
   const {mutate} = api.tweet.toggleLike.useMutation({
@@ -68,6 +71,16 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
   const handleLike = (id: string) =>{
     mutate({id})
   }
+
+  const {mutate: deleteTweet} = api.tweet.deleteTweet.useMutation({
+    onSuccess: () => {
+      void trpcUtils.tweet.allPosts.invalidate()
+      void trpcUtils.tweet.allPostsByUser.invalidate()
+    },
+    onError: (error) => {
+      console.log(error)
+    }
+  })
   
   
 
@@ -88,10 +101,10 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
               <div  className="flex lg:justify-between justify-start flex-col lg:flex-row  ">
                 <div className='flex flex-col gap-2'>
                 <div className='flex gap-3 items-center'>
-                {tweet.user.image && <Link href={`@${tweet.user.username}`}><img src={tweet.user.image} alt="author_pfp" className="rounded-full hover:scale-[1.03] hover:opacity-50 h-12 w-14" /></Link>}
+                {tweet.user.image && <Link href={`@${tweet.user.username}`}><img src={tweet.user.image} alt="author_pfp" className="rounded-full hover:scale-[1.03] hover:opacity-50 h-12 w-14 object-contain" /></Link>}
               <div className="flex flex-col w-full">
                 <div className="flex items-center gap-1">
-                  <Link href={`@${tweet.user.username}`}><span className="font-bold text-xs md:text-basetext-slate-200 hover:border-b-2 ">{tweet.user.name}</span></Link>
+                  <Link href={`@${tweet.user.username}`}><span className="font-bold text-xs md:text-base text-slate-200 hover:border-b-2 ">{tweet.user.name}</span></Link>
                   <span className="text-slate-300 text-xs md:text-base">@{tweet.user.username } ·</span>
                   <Link href={`/post/${tweet.id}`}> 
                   <span className="text-slate-300 hover:border-b text-xs md:text-base">{ dayjs(tweet.createdAt).fromNow()}</span></Link>
@@ -128,7 +141,8 @@ const AllTweetLists = ({tweets, isError, isLoading, fetchNewTweets, hasMore}: Tw
                       })
                     }}><BsFillPlayCircleFill/></button>
                           </div>
-
+                    
+                    {session?.user?.id === tweet.userId && <button className='text-red-500 text-sm hover:underline' onClick={()=>deleteTweet({id: tweet.id})}><FaRegTrashAlt/></button>}
 
                     </div>
                    

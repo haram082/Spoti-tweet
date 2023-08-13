@@ -23,7 +23,7 @@ export const ProfileRouter = createTRPCRouter({
   createProfile: protectedProcedure
   .input(z.object({
     email: z.string().email(),
-    image: z.string().url(),
+    image: z.string().url().optional(),
     name: z.string().min(1),
   }))
   .mutation(async ({input: { email, image, name}, ctx}) => {
