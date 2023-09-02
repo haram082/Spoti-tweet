@@ -163,7 +163,7 @@ export const TweetRouter = createTRPCRouter({
     if(!existingTLike){
       await ctx.prisma.like.create({data})
     }else{
-      await ctx.prisma.like.delete({where: {userId_tweetId: data}})
+      await ctx.prisma.like.delete({where: {userId_tweetId: data}})  
 
     }
 
