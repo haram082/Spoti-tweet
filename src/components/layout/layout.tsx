@@ -36,7 +36,9 @@ export const Sidebar = () => {
             mutate({ name: session.user?.name!, image: session.user?.image! , email: session.user?.email! })
             }
         }
+        
       }, [getUser, isLoading, session])
+      console.log(session?.user)
   
     return (
         <ul className="text-center flex flex-col justify-center items-center gap-5 mt-5 text-slate-600 ">
